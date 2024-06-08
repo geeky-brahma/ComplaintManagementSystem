@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Management System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    background: #003366;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    position: relative;
+  }
+  .header h1 {
+    margin: 0;
+  }
+  .login-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: #003366;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .container {
+    display: flex;
+  }
+  .sidebar {
+    width: 20%;
+    background: #e6e6e6;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  .sidebar a {
+    display: block;
+    color: #003366;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 0;
+    margin-bottom: 10px;
+  }
+  .main-content {
+    width: 80%;
+    padding: 20px;
+  }
+  .main-content h2 {
+    margin-top: 0;
+  }
+  .form-container {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .form-group input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .form-group .radio-group {
+    display: flex;
+    align-items: center;
+  }
+  .form-group .radio-group label {
+    margin-left: 10px;
+    margin-right: 20px;
+  }
+  .form-group .radio-group input {
+    margin-left: 20px;
+  }
+  .form-group .help-text {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+  .form-group button {
+    padding: 10px 20px;
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .complaint-details {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .complaint-details th, .complaint-details td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  .complaint-details th {
+    background: #003366;
+    color: #fff;
+  }
+  .complaint-details td {
+    background: #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>Complaint Management System</h1>
+    <a href="LOGIN.html" class="login-button">Login</a>
+  </div>
+  <div class="container">
+    <div class="sidebar">
+      <a href="RAISE_NEW_COMPLAINT.html">Raise Complaint</a>
+      <a href="CHECK_COMPLAIN_STATUS.html">Check Complaint Status</a>
+    </div>
+    <div class="main-content">
+      <h2>Check Complaint Status</h2>
+      <div class="form-container">
+        <div class="form-group">
+          <label>Check Status By</label>
+          <div class="radio-group">
+            <label><input type="radio" name="status-by" value="id" checked> Complaint Id</label>
+            <label><input type="radio" name="status-by" value="employee_no"> Employee No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Enter Complaint Id/Employee No" id="input-field">
+          <div class="help-text">If search is by complaint id then show the complaint details</div>
+        </div>
+        <div class="form-group">
+          <!-- <button type="button">Go</button> -->
+          <!-- <button type="button" id="go-button">Go</button> -->
+          <button type="submit_c">SUBMIT</button>
+        </div>
+      </div>
+      <table class="complaint-details" id="complaint-table">
+        <tr>
+          <th>Complaint Id</th>
+          <th>Emp No</th>
+          <th>Emp Name</th>
+          <th>Division</th>
+          <th>Department</th>
+          <th>Website</th>
+          <th>Module</th>
+          <th>Desc</th>
+          <th>Reference Document</th>
+          <th>Status</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script src="script_check_complaint.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Railway Complaint Management System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+  }
+  .header {
+    background: #003366;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    position: relative;
+  }
+  .header h1 {
+    margin: 0;
+  }
+  .login-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: #003366;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    background: #e6e6e6;
+    padding: 10px 20px;
+  }
+  .nav-item {
+    color: #003366;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .main-content {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .content-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    text-align: center;
+  }
+  .content-box:hover {
+    border-color: #003366;
+    cursor: pointer;
+  }
+  .footer {
+    background: #003366;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>Complaint Management System</h1>
+    <a href="LOGIN.html" class="login-button">Login</a>
+  </div>
+  <div class="nav">
+    <a href="RAISE_NEW_COMPLAINT.html" class="nav-item">Raise Complaint</a>
+    <a href="CHECK_COMPLAIN_STATUS.html" class="nav-item">Check Complaint Status</a>
+  </div>
+  <div class="main-content">
+    <div class="content-box" onclick="location.href='RAISE_NEW_COMPLAINT.html';">
+      <h2>Raise Complaint</h2>
+      <p>Load Raise complaint page</p>
+    </div>
+    <div class="content-box" onclick="location.href='CHECK_COMPLAIN_STATUS.html';">
+      <h2>Check Complaint Status</h2>
+      <p>Load check complaint status page</p>
+    </div>
+  </div>
+  <div class="footer">
+    <p>© 2024 Railway Complaint Management System</p>
+  </div>
+</body>
+</html>
