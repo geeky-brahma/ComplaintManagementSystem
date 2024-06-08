@@ -18,9 +18,9 @@
     text-align: center;
     position: relative;
   }
-  .header h1 {
+  /* .header h1 {
     margin: 0;
-  }
+  } */
   .login-button {
     position: absolute;
     top: 10px;
@@ -37,9 +37,9 @@
     display: flex;
   }
   .sidebar {
-    width: 20%;
     background: #e6e6e6;
     padding: 20px;
+    width: 20%;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   }
   .sidebar a {
@@ -110,6 +110,15 @@
   }
   .form-group .reference-upload input[type="file"] {
     margin-left: 10px;
+  }
+  .footer {
+    background: #003366;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 </style>
 </head>
@@ -187,7 +196,13 @@
       </div>
     </div>
   </div>
+
   <script src="script_raise_new_complaint.js"></script>
+  <div class="footer">
+    <p>© 2024 Railway Complaint Management System</p>
+  </div>
+
+
 </body>
 
 </html>
