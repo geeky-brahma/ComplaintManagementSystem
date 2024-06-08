@@ -71,43 +71,5 @@ function sendData(formData) {
     xhr.send(JSON.stringify(formData));
 }
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     const goButton = document.querySelector('#go-button');
-    
-//     goButton.addEventListener('click', (e) => {
-//       e.preventDefault();
-      
-//       // Dummy data to be added to the table
-//       const newData = {
-//         complaintId: '54321',
-//         empNo: '09876',
-//         empName: 'Jane Doe',
-//         division: 'Division 2',
-//         department: 'Department B',
-//         website: 'example.org',
-//         module: 'Module Y',
-//         desc: 'Another Sample Description',
-//         referenceDoc: 'Document2.pdf',
-//         status: 'Closed'
-//       };
-      
-//       // Select the table
-//       const table = document.querySelector('#complaint-table');
-      
-//       // Create a new row and add the data
-//       const newRow = table.insertRow();
-      
-//       // Create and append cells with data to the new row
-//       newRow.insertCell(0).textContent = newData.complaintId;
-//       newRow.insertCell(1).textContent = newData.empNo;
-//       newRow.insertCell(2).textContent = newData.empName;
-//       newRow.insertCell(3).textContent = newData.division;
-//       newRow.insertCell(4).textContent = newData.department;
-//       newRow.insertCell(5).textContent = newData.website;
-//       newRow.insertCell(6).textContent = newData.module;
-//       newRow.insertCell(7).textContent = newData.desc;
-//       newRow.insertCell(8).textContent = newData.referenceDoc;
-//       newRow.insertCell(9).textContent = newData.status;
-//     });
-//   });
+
   
