@@ -10,6 +10,14 @@
     background: #f7f7f7;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
   .header {
     background: #003366;
@@ -18,9 +26,6 @@
     text-align: center;
     position: relative;
   }
-  /* .header h1 {
-    margin: 0;
-  } */
   .login-button {
     position: absolute;
     top: 10px;
@@ -35,6 +40,7 @@
   }
   .container {
     display: flex;
+    flex: 1;
   }
   .sidebar {
     background: #e6e6e6;
@@ -115,94 +121,89 @@
     background: #003366;
     color: #fff;
     text-align: center;
-    padding: 20px 0px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    padding: 20px 0;
   }
 </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Complaint Management System</h1>
-    <a href="LOGIN.html" class="login-button">Login</a>
-  </div>
-  <div class="container">
-    <div class="sidebar">
-      <a href="RAISE_NEW_COMPLAINT.html">Raise Complaint</a>
-      <a href="CHECK_COMPLAIN_STATUS.html">Check Complaint Status</a>
+  <div class="content">
+    <div class="header">
+      <h1>Complaint Management System</h1>
+      <a href="LOGIN.html" class="login-button">Login</a>
     </div>
-    <div class="main-content">
-      <h2>Raise New Complaint</h2>
-      <div class="form-container">
-        <div class="form-group">
-          <label for="employee-no">Employee NO</label>
-          <input type="text" id="employee-no" placeholder="Employee No Alpha Numeric 11 Character" required>
-        </div>
-        <div class="form-group">
-          <div class="inline-group">
-            <div>
-              <label for="employee-name">Employee Name</label>
-              <input type="text" id="employee-name" placeholder="Employee Name" required>
+    <div class="container">
+      <div class="sidebar">
+        <a href="RAISE_NEW_COMPLAINT.html">Raise Complaint</a>
+        <a href="CHECK_COMPLAIN_STATUS.html">Check Complaint Status</a>
+      </div>
+      <div class="main-content">
+        <h2>Raise New Complaint</h2>
+        <div class="form-container">
+          <div class="form-group">
+            <label for="employee-no">Employee NO</label>
+            <input type="text" id="employee-no" placeholder="Employee No Alpha Numeric 11 Character" required>
+          </div>
+          <div class="form-group">
+            <div class="inline-group">
+              <div>
+                <label for="employee-name">Employee Name</label>
+                <input type="text" id="employee-name" placeholder="Employee Name" required>
+              </div>
+              <div>
+                <label for="division-hq">Division/HQ</label>
+                <select id="division-hq">
+                  <option value="HQ">HQ</option>
+                  <option value="KUR">KUR</option>
+                  <option value="SBP">SBP</option>
+                  <option value="WAT">WAT</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label for="division-hq">Division/HQ</label>
-              <select id="division-hq">
-                <option value="HQ">HQ</option>
-                <option value="KUR">KUR</option>
-                <option value="SBP">SBP</option>
-                <option value="WAT">WAT</option>
+          </div>
+          <div class="form-group">
+            <label for="department">Department</label>
+            <div class="inline-group">
+              <select id="department">
+                <option value="Accounts">Accounts</option>
+                <option value="Personnel">Personnel</option>
+                <option value="ENGG">ENGG</option>
+                <option value="OPTG">OPTG</option>
+              </select>
+              <select id="website">
+                <option value="IPAS">IPAS</option>
+                <option value="e-Office">e-Office</option>
+                <option value="Sparrow">Sparrow</option>
+                <option value="east-coast-website">east coast website</option>
+              </select>
+              <select id="module">
+                <option value="Quarter">Quarter</option>
+                <option value="Payroll">Payroll</option>
+                <option value="Bill passing">Bill passing</option>
+                <option value="Pension">Pension</option>
               </select>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="department">Department</label>
-          <div class="inline-group">
-            <select id="department">
-              <option value="Accounts">Accounts</option>
-              <option value="Personnel">Personnel</option>
-              <option value="ENGG">ENGG</option>
-              <option value="OPTG">OPTG</option>
-            </select>
-            <select id="website">
-              <option value="IPAS">IPAS</option>
-              <option value="e-Office">e-Office</option>
-              <option value="Sparrow">Sparrow</option>
-              <option value="east-coast-website">east coast website</option>
-            </select>
-            <select id="module">
-              <option value="Quarter">Quarter</option>
-              <option value="Payroll">Payroll</option>
-              <option value="Bill passing">Bill passing</option>
-              <option value="Pension">Pension</option>
-            </select>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="Description"></textarea>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea id="description" placeholder="Description"></textarea>
-        </div>
-        <div class="form-group reference-upload">
-          <label for="reference">Reference :</label>
-          <input type="file" id="reference">
-        </div>
-        <div class="form-group">
-          <button type="submit">SUBMIT</button>
-        </div>
-        <div id="compID">
-          
+          <div class="form-group reference-upload">
+            <label for="reference">Reference :</label>
+            <input type="file" id="reference">
+          </div>
+          <div class="form-group">
+            <button type="submit">SUBMIT</button>
+          </div>
+          <div id="compID">
+            
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <script src="script_raise_new_complaint.js"></script>
   <div class="footer">
     <p>© 2024 Railway Complaint Management System</p>
   </div>
-
-
+  <script src="script_raise_new_complaint.js"></script>
 </body>
-
 </html>
