@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complaint Management System</title>
-<style>
+<!-- <style>
   body {
     font-family: Arial, sans-serif;
     background: #f7f7f7;
@@ -24,7 +24,7 @@
     color: #fff;
     padding: 10px 20px;
     text-align: center;
-    position: relative;
+    /* position: relative; */
   }
   .login-button {
     position: absolute;
@@ -48,7 +48,7 @@
     width: 20%;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   }
-  .sidebar a {
+  .sidebar-item {
     display: block;
     color: #003366;
     text-decoration: none;
@@ -102,7 +102,7 @@
     font-size: 12px;
     color: #666;
   }
-  .form-group button {
+  .submit-button {
     padding: 10px 20px;
     background: #003366;
     color: #fff;
@@ -123,13 +123,25 @@
     text-align: center;
     padding: 20px 0;
   }
-</style>
+</style> -->
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<!-- ADDED -->
+  <div class="header">
+    <h1>Complaint Management System</h1>
+    <a href="LOGIN.html" class="login-button">Login</a>
+  </div>
+  <div class="container">
+    <div class="sidebar">
+      <a href="RAISE_NEW_COMPLAINT.html" class="sidebar-item">Raise Complaint</a>
+      <a href="CHECK_COMPLAIN_STATUS.html" class="sidebar-item">Check Complaint Status</a>
+<!-- REMOVED
   <div class="content">
     <div class="header">
       <h1>Complaint Management System</h1>
       <a href="LOGIN.html" class="login-button">Login</a>
+ -->
     </div>
     <div class="container">
       <div class="sidebar">
@@ -197,10 +209,27 @@
           <div id="compID">
             
           </div>
+
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group reference-upload">
+          <label for="reference">Reference :</label>
+          <input type="file" id="reference">
+        </div>
+        <div>
+          <button class="submit-button" type="submit">SUBMIT</button>
+        </div>
+        <div id="compID">
+          
+
         </div>
       </div>
     </div>
   </div>
+
   <div class="footer">
     <p>© 2024 Railway Complaint Management System</p>
   </div>
