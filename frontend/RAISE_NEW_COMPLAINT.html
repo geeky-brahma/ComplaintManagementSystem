@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complaint Management System</title>
-<style>
+<!-- <style>
   body {
     font-family: Arial, sans-serif;
     background: #f7f7f7;
@@ -16,11 +16,8 @@
     color: #fff;
     padding: 10px 20px;
     text-align: center;
-    position: relative;
+    /* position: relative; */
   }
-  /* .header h1 {
-    margin: 0;
-  } */
   .login-button {
     position: absolute;
     top: 10px;
@@ -42,7 +39,7 @@
     width: 20%;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   }
-  .sidebar a {
+  .sidebar-item {
     display: block;
     color: #003366;
     text-decoration: none;
@@ -96,7 +93,7 @@
     font-size: 12px;
     color: #666;
   }
-  .form-group button {
+  .submit-button {
     padding: 10px 20px;
     background: #003366;
     color: #fff;
@@ -120,7 +117,8 @@
     bottom: 0;
     width: 100%;
   }
-</style>
+</style> -->
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="header">
@@ -129,8 +127,8 @@
   </div>
   <div class="container">
     <div class="sidebar">
-      <a href="RAISE_NEW_COMPLAINT.html">Raise Complaint</a>
-      <a href="CHECK_COMPLAIN_STATUS.html">Check Complaint Status</a>
+      <a href="RAISE_NEW_COMPLAINT.html" class="sidebar-item">Raise Complaint</a>
+      <a href="CHECK_COMPLAIN_STATUS.html" class="sidebar-item">Check Complaint Status</a>
     </div>
     <div class="main-content">
       <h2>Raise New Complaint</h2>
@@ -187,8 +185,8 @@
           <label for="reference">Reference :</label>
           <input type="file" id="reference">
         </div>
-        <div class="form-group">
-          <button type="submit">SUBMIT</button>
+        <div>
+          <button class="submit-button" type="submit">SUBMIT</button>
         </div>
         <div id="compID">
           
@@ -196,14 +194,10 @@
       </div>
     </div>
   </div>
-<<<<<<< Updated upstream
-  <script src="script.js"></script>
-=======
   <script src="script_raise_new_complaint.js"></script>
   <div class="footer">
     <p>© 2024 Railway Complaint Management System</p>
   </div>
->>>>>>> Stashed changes
 </body>
 
 </html>

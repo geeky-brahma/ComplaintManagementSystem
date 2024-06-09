@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complaint Management System</title>
-<style>
+<!-- <style>
   body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -87,40 +87,46 @@
   }
   .dropdown a:hover {background-color: #f1f1f1;}
   .user-profile:hover .dropdown {display: block;}
-</style>
+</style> -->
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="header">
     <h1>ALL COMPLAINTS</h1>
-    <div class="user-profile">
-      <img src="profile.jpg" alt="Profile">
+    <div class="user-menu">
       <div class="dropdown">
-        <a href="#">Profile</a>
-        <a href="#">Change Password</a>
-        <a href="#">Logout</a>
+        <img src="ecor.png" alt="Profile Image" class="dropbtn">
+        <div class="dropdown-content">
+          <a href="#">Profile</a>
+          <a href="#">Change Password</a>
+          <a href="#">Logout</a>
+        </div>
       </div>
     </div>
+    </div>
   </div>
-  <div class="sidebar">
-    <a href="INBOX.html" class="sidebar-item">Inbox</a>
-    <a href="#" class="sidebar-item">Sent</a>
-    <a href="#" class="sidebar-item">Add User</a>
-    <a href="#" class="sidebar-item">Activate/Deactivate User</a>
-    <a href="#" class="sidebar-item">Reports</a>
-  </div>
-  <div class="main-content">
-    <table class="table">
-      <tr>
-        <th>COMPLAINT ID</th>
-        <th>COMPLAIN CASE ID</th>
-        <th>DIV</th>
-        <th>DEPARTMENT</th>
-        <th>MAGNITUDE</th>
-        <th>STATUS</th>
-        <th>DATE</th>
-      </tr>
-      <!-- Table rows can be added here as needed -->
-    </table>
+  <div class="container">
+    <div class="sidebar">
+      <a href="INBOX.html" class="sidebar-item">Inbox</a>
+      <a href="#" class="sidebar-item">Sent</a>
+      <a href="#" class="sidebar-item">Add User</a>
+      <a href="#" class="sidebar-item">Activate/Deactivate User</a>
+      <a href="#" class="sidebar-item">Reports</a>
+    </div>
+    <div class="main-content">
+      <table class="table">
+        <tr>
+          <th>COMPLAINT ID</th>
+          <th>COMPLAIN CASE ID</th>
+          <th>DIV</th>
+          <th>DEPARTMENT</th>
+          <th>MAGNITUDE</th>
+          <th>STATUS</th>
+          <th>DATE</th>
+        </tr>
+        <!-- Table rows can be added here as needed -->
+      </table>
+    </div>
   </div>
   <div class="footer">
     <p>© 2024 Railway Complaint Management System</p>
