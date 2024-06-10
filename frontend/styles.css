@@ -102,7 +102,9 @@ body {
 .sidebar {
     background: #e6e6e6;
     padding: 20px;
-    width: 20%;
+    /* width: 20%; */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
     max-width: 220px;
     /* height: 100%; */
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -129,7 +131,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .form-group {
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 .form-group label {
     display: block;
@@ -196,8 +198,11 @@ body {
 
 
 .main-content {
-    width: 80%;
+    /* width: 80%; */
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     padding: 20px;
+    overflow: scroll;
 }
 .main-content h2 {
     margin-top: auto;
@@ -249,7 +254,8 @@ table th {
     margin-bottom: 20px;
 }
 .login-container input {
-    width: -webkit-fill-available;
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
