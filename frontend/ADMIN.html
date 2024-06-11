@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Complaint Management System</title>
-<!-- <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complaint Management System</title>
+    <!-- <style>
   body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -106,39 +106,41 @@
     color: white;
   }
 </style> -->
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="header">
-    <h1>Complaint Management System</h1>
-    <div class="user-menu">
-      <div class="dropdown">
-        <img src="ecor.png" alt="Profile Image" class="dropbtn">
-        <div class="dropdown-content">
-          <a href="#">Profile</a>
-          <a href="#">Change Password</a>
-          <a href="#">Logout</a>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>Complaint Management System</h1>
+      <div class="user-menu">
+        <div class="dropdown">
+          <img src="ecor.png" alt="Profile Image" class="dropbtn" />
+          <div class="dropdown-content">
+            <a href="#">Profile</a>
+            <a href="#">Change Password</a>
+            <a href="#">Logout</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-
-  <div class="container">
-    <div class="sidebar">
-      <a href="#" class="sidebar-item" id="inbox">Inbox</a>
-      <a href="#" class="sidebar-item">Sent</a>
-      <a href="#" class="sidebar-item">Add User</a>
-      <a href="#" class="sidebar-item">Activate/Deactivate User</a>
-      <a href="#" class="sidebar-item">Reports</a>
+    <div class="container">
+      <div class="sidebar">
+        <a href="#" class="sidebar-item" id="inbox" onclick=hideWelcomeScreen()>Inbox</a>
+        <a href="#" class="sidebar-item">Sent</a>
+        <a href="#" class="sidebar-item">Add User</a>
+        <a href="#" class="sidebar-item">Activate/Deactivate User</a>
+        <a href="#" class="sidebar-item">Reports</a>
+      </div>
+      <div class="main-content" id="main-content">
+        <div class="welcomebox">
+          <h2 class="welcometext">Click on Inbox to view complaints!</h2>
+        </div>
+        <!-- Content boxes can be added here as needed -->
+      </div>
     </div>
-    <div class="main-content" id="main-content">
-      <!-- Content boxes can be added here as needed -->
+    <div class="footer">
+      <p>© 2024 Railway Complaint Management System</p>
     </div>
-  </div>
-  <div class="footer">
-    <p>© 2024 Railway Complaint Management System</p>
-  </div>
-  <script src="script_admin.js"></script>
-</body>
+    <script src="script_admin.js"></script>
+  </body>
 </html>
