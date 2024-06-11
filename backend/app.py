@@ -45,16 +45,17 @@ def data():
         module = json_data["module"]
         description = json_data["description"]
         reference = json_data["reference"]
+        date= json_data['date']
         status = json_data["status"]
 
         # Construct the SQL INSERT statement
-        sql = """INSERT INTO complaints (employee_no, employee_name, division_hq, department, website, module, description, reference, status)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        sql = """INSERT INTO complaints (employee_no, employee_name, division_hq, department, website, module, description, reference, status, date)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
         # Execute the INSERT statement
         try:
             cursor = conn.cursor()
-            cursor.execute(sql, (employee_no, employee_name, division_hq, department, website, module, description, reference, status))
+            cursor.execute(sql, (employee_no, employee_name, division_hq, department, website, module, description, reference, status, date))
             conn.commit()
             print("Data inserted successfully")
         except (Exception, pg.DatabaseError) as error:
