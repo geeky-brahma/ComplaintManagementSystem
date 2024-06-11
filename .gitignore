@@ -1,0 +1,3 @@
+.vscode/
+backend/_pycache_/**
+backend/env/**
