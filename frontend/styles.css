@@ -199,10 +199,18 @@ body {
     width: 80%;
     padding: 20px;
 }
-.main-content h2 {
-    margin-top: auto;
-}
 
+/* .main-content h2 {
+    margin-top: auto;
+} */
+
+ /* admin page welcome text */
+.welcomebox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;        
+  }
 .footer {
     background: #003366;
     color: #fff;
