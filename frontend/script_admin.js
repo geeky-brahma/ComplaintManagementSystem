@@ -59,7 +59,15 @@ inbox.addEventListener("click", (e) => {
                 newRow.insertCell(5).textContent = newData.website;
                 newRow.insertCell(6).textContent = newData.module;
                 newRow.insertCell(7).textContent = newData.desc;
-                newRow.insertCell(8).textContent = newData.referenceDoc;
+
+                //updated the reference column to a hyperlink
+                const linkCell = newRow.insertCell(8);
+                const link = document.createElement('a');
+                link.href = newData.referenceDoc;
+                link.textContent = 'Document';
+                linkCell.appendChild(link);
+
+                
                 newRow.insertCell(9).textContent = newData.status;
             }
         } else {
