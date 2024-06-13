@@ -13,7 +13,7 @@ def create_db():
     return cur, conn
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 @app.route("/")
 def hello():
     return "Hello, World!"
@@ -115,5 +115,31 @@ def all_complaints():
     }
     return flask.Response(response=json.dumps(data_json), status=200)
 
+
+@app.route('/login_users', methods=["POST"])  
+def login_users():
+    if request.method == "POST":
+        json_data = request.get_json()
+        name='user'
+        id = json_data["id"]
+        password = json_data["password"]
+        print(id, password)
+        data_json = {
+            "data": {'name':name, 'id':id}
+        }
+        return flask.Response(response=json.dumps(data_json), status=201)
+@app.route('/register_users', methods=["POST"])  
+def register_users():
+    if request.method == "POST":
+        json_data = request.get_json()
+        
+        name = json_data["name"]
+        id = json_data["id"]
+        password = json_data["password"]
+        print(id, password)
+        data_json = {
+            "data": {'name':name, 'id':id}
+        }
+        return flask.Response(response=json.dumps(data_json), status=201)
 
 
