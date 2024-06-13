@@ -4,108 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complaint Management System</title>
-<!-- <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f7f7f7;
-  }
-  .header {
-    background: #003366;
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-    position: relative;
-  }
-  .sidebar {
-    background: #e6e6e6;
-    padding: 20px;
-    width: 20%;
-    height: 100%;
-    /* overflow: auto; */
-  }
-  .sidebar-item {
-    color: #003366;
-    text-decoration: none;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ccc; /* Add border */
-    padding-bottom: 10px; /* Add padding */
-  }
-  .container {
-    display: flex;
-  }
-  .main-content {
-    width: 80%;
-    padding: 20px;
-  }
-  .footer {
-    background: #003366;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-  .user-menu {
-    position: absolute;
-    top: 18%;
-    right: 20px;
-    display: flex;
-    align-items: center;
-  }
-  .user-menu img {
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    background: #f7f7f7;
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  .dropdown-content a:hover {
-    background-color: #f1f1f1;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  .dropdown:hover .dropbtn {
-    background-color: #003366;
-  }
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .table th, .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  .table th {
-    background-color: #003366;
-    color: white;
-  }
-</style> -->
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -123,7 +21,6 @@
     </div>
   </div>
 
-
   <div class="container">
     <div class="sidebar">
       <a href="#" class="sidebar-item" id="inbox">Inbox</a>
@@ -136,55 +33,56 @@
       <div class="form-container">
         <h2>Complaint Details</h2>
         <div class="complaint-details-single">
-            <table>
-              <tr>
-                <td>Complain ID</td>
-                <td id="complain-id"></td>
+          <table>
+            <tr>
+              <td>Complain ID</td>
+              <td id="complain-id"></td>
             </tr>
             <tr>
-                <td>Complain Description</td>
-                <td id="complain-description"></td>
+              <td>Complain Description</td>
+              <td id="complain-description"></td>
             </tr>
             <tr>
-                <td>Website</td>
-                <td id="website"></td>
+              <td>Website</td>
+              <td id="website"></td>
             </tr>
             <tr>
-                <td>Module</td>
-                <td id="module"></td>
+              <td>Module</td>
+              <td id="module"></td>
             </tr>
             <tr>
-                <td>Div</td>
-                <td id="div"></td>
+              <td>Div</td>
+              <td id="div"></td>
             </tr>
             <tr>
-                <td>Employee Name</td>
-                <td id="employee-name"></td>
+              <td>Employee Name</td>
+              <td id="employee-name"></td>
             </tr>
             <tr>
-                <td>Employee No</td>
-                <td id="employee-no"></td>
+              <td>Employee No</td>
+              <td id="employee-no"></td>
             </tr>
             <tr>
-                <td>Description</td>
-                <td id="description"></td>
+              <td>Description</td>
+              <td id="description"></td>
             </tr>
             <tr>
-                <td>Reference Document</td>
-                <td id="reference-document"></td>
+              <td>Reference Document</td>
+              <td id="reference-document"></td>
             </tr>
-            </table>
+          </table>
         </div>
         <div class="radio-group">
-            <label for="close"><input type="radio" id="close" name="action" value="close">Close</label>
-            <label for="forward"><input type="radio" id="forward" name="action" value="forward">Forward</label>
-
-
+          <label for="close"><input type="radio" id="close" name="action" value="close">Close</label>
+          <label for="forward"><input type="radio" id="forward" name="action" value="forward">Forward</label>
         </div>
         <div class="action-content" id="action-content">
-            <!-- This will be populated based on radio button selection -->
+          <!-- This will be populated based on radio button selection -->
         </div>
-    </div>
+        <div class="form-actions">
+          <button class="submit-button" type="submit">Submit</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="footer">
@@ -193,22 +91,22 @@
   <script src="script_admin.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const closeRadio = document.getElementById("close");
-        const forwardRadio = document.getElementById("forward");
-        const actionContent = document.getElementById("action-content");
-    
-        closeRadio.addEventListener("change", function() {
-            if (closeRadio.checked) {
-                actionContent.innerHTML = '<label for="remarks">Remarks:</label><textarea id="remarks" rows="4" cols="50">Remarks</textarea>';
-            }
-        });
-    
-        forwardRadio.addEventListener("change", function() {
-            if (forwardRadio.checked) {
-                actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User 1</option><option value="user2">User 2</option><option value="user3">User 3</option><option value="user4">User 4</option></select>';
-            }
-        });
+      const closeRadio = document.getElementById("close");
+      const forwardRadio = document.getElementById("forward");
+      const actionContent = document.getElementById("action-content");
+
+      closeRadio.addEventListener("change", function() {
+        if (closeRadio.checked) {
+          actionContent.innerHTML = '<label for="remarks">Remarks:</label><textarea id="remarks" rows="4" cols="50">Remarks</textarea>';
+        }
+      });
+
+      forwardRadio.addEventListener("change", function() {
+        if (forwardRadio.checked) {
+          actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User 1</option><option value="user2">User 2</option><option value="user3">User 3</option><option value="user4">User 4</option></select>';
+        }
+      });
     });
-    </script>
+  </script>
 </body>
 </html>
