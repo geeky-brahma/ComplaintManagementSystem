@@ -1,22 +1,22 @@
 inbox.addEventListener("click", (e) => {
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
-    
+
     // Define the request URL
     const url = "http://127.0.0.1:5000/all_complaints";
-    
+
     // Configure the request
     xhr.open("GET", url);
-    
+
     // Define the onload function to handle the response
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             // Request was successful
             const responseData = JSON.parse(xhr.responseText);
             // Process the response data here
             console.log(responseData);
             main_content = document.querySelector('#main-content')
-            main_content.innerHTML= `
+            main_content.innerHTML = `
             <table class="table" id="complaint-table">
             <tr>
                 <th>COMPLAINT ID</th>
@@ -35,7 +35,7 @@ inbox.addEventListener("click", (e) => {
             </table>`
             data = responseData['data']
             console.log(responseData)
-            for (let i = 0; i < data.length; i++){
+            for (let i = 0; i < data.length; i++) {
                 const newData = {
                     complaintId: data[i][0],
                     empNo: data[i][1],
@@ -53,6 +53,13 @@ inbox.addEventListener("click", (e) => {
 
                 // Create a new row and add the data
                 const newRow = table.insertRow();
+
+                // Add event listener to navigate to the complaint details of that page
+                newRow.addEventListener('click', () => {
+                    window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
+                });
+                newRow.style.cursor = 'pointer';
+
                 newRow.insertCell(0).textContent = newData.complaintId;
                 newRow.insertCell(1).textContent = newData.date;
                 newRow.insertCell(2).textContent = newData.empNo;
@@ -70,23 +77,24 @@ inbox.addEventListener("click", (e) => {
                 link.textContent = 'Document';
                 linkCell.appendChild(link);
                 newRow.insertCell(10).textContent = newData.status;
+                
             }
         } else {
             // Request failed
             console.error("Error:", xhr.status);
         }
     };
-    
+
     // Define the onerror function to handle errors
-    xhr.onerror = function() {
+    xhr.onerror = function () {
         console.error("Request failed");
     };
-    
+
     // Send the request
     xhr.send();
 
     main_content = document.querySelector('#main-content')
-    main_content.innerHTML= `
+    main_content.innerHTML = `
     <table class="table">
       <tr>
         <th>COMPLAINT ID</th>
@@ -99,6 +107,6 @@ inbox.addEventListener("click", (e) => {
       </tr>
       <!-- Table rows can be added here as needed -->
     </table>`
-    
-    
+
+
 });
