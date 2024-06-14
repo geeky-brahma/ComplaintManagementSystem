@@ -1,151 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Railway Complaint Management System</title>
-    <!-- <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .login-header {
-    background: #003366;
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-  .login-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    background: #003366;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .login-container {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  .login-container h2 {
-    margin-bottom: 20px;
-  }
-  .login-container input {
-    width: -webkit-fill-available;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  .login-container button {
-    width: 100%;
-    padding: 10px;
-    background: #003366;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  .login-container button:hover {
-    background: #002244;
-  }
-  .forgot-password {
-    display: block;
-    margin-top: 10px;
-    color: #003366;
-    text-decoration: none;
-  }
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  .footer {
-    background: #003366;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-</style> -->
-    <style>
-        .alert-box {
-            position: absolute;
-            top: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            min-width: 150px;
-            max-width: 90%;
-            width: auto;
-            height: auto;
-            padding: 10px;
-            text-transform: capitalize;
-            background: rgb(255, 119, 119);
-            border-top: 10px solid rgb(255, 37, 37);
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            color: #fff;
-            font-family: 'roboto', sans-serif;
-            text-align: center;
-            transition: 1s;
-        }
-    </style>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Page</title>
+<link rel="stylesheet" href="styles_reg.css">
 </head>
+<body>
+  <div class="header">
+    <h1>Complaint Management System - Registration</h1>
+  </div>
 
-<body class="login">
-    <div class="alert-box">
-        <p class="alert"></p>
-    </div>
-
-    <div class="login-header">
-        <h1>Complaint Management System</h1>
-        <div class="user-menu">
-            <div class="dropdown">
-                <img src="ecor.png" alt="Profile Image" class="dropbtn">
-                <div class="dropdown-content">
-                    <a href="#">Profile</a>
-                    <a href="#">Change Password</a>
-                    <a href="#">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="login-container">
-        <img src="ecor.png" alt="Profile Image" class="login-img">
-        <h2>Register</h2>
-        <form action="#" method="post">
-            <input id="name" type="text" name="name" placeholder="Name" required>
-            <input id="id" type="text" name="employee-id" placeholder="Employee ID" required>
-            <input id="password" type="password" name="password" placeholder="Password" required>
-            <button class="submit-button" type="submit">Register</button>
+  <div class="container">
+    <div class="main-content">
+      <div class="form-container">
+        <h2>Register New User</h2>
+        <form id="registration-form">
+          <div class="form-group">
+            <label for="employee-id">Employee ID</label>
+            <input type="text" id="employee-id" name="employee-id" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+          </div>
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit">Register</button>
+          </div>
         </form>
-        <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
     </div>
-    <div class="footer">
-        <p>© 2024 Railway Complaint Management System</p>
-    </div>
-    <script src="script_login.js"></script>
-</body>
+  </div>
 
+  <div class="footer">
+    <p>© 2024 Railway Complaint Management System</p>
+  </div>
+
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Add your form submission logic here
+      alert('Form submitted!');
+    });
+  </script>
+</body>
 </html>
