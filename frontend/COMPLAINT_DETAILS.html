@@ -72,15 +72,19 @@
             </tr>
           </table>
         </div>
-        <div class="radio-group">
-          <label for="close"><input type="radio" id="close" name="action" value="close">Close</label>
-          <label for="forward"><input type="radio" id="forward" name="action" value="forward">Forward</label>
+        <div class="form-group">
+          <div class="radio-group">
+            <label for="close"><input type="radio" id="close" name="action" value="close">Close</label>
+            <label for="forward"><input type="radio" id="forward" name="action" value="forward">Forward</label>
+          </div>
+          <div class="action-content" id="action-content">
+            <!-- This will be populated based on radio button selection -->
+          </div>
         </div>
-        <div class="action-content" id="action-content">
-          <!-- This will be populated based on radio button selection -->
-        </div>
-        <div class="form-actions">
-          <button class="submit-button" type="submit">Submit</button>
+        <div class="form-group">
+          <div class="form-actions">
+            <button class="submit-button" type="submit">Submit</button>
+          </div>
         </div>
       </div>
     </div>

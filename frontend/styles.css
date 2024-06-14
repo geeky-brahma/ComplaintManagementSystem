@@ -146,6 +146,7 @@ body {
 .form-group .radio-group {
     display: flex;
     align-items: center;
+    /* padding: 10px 0; */
 }
 .form-group .radio-group label {
     margin-left: 10px;
