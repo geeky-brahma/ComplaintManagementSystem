@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Railway Complaint Management System</title>
-<!-- <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Railway Complaint Management System</title>
+    <!-- <style>
   body {
     font-family: Arial, sans-serif;
     background: #f7f7f7;
@@ -84,37 +85,66 @@
     width: 100%;
   }
 </style> -->
-<link rel="stylesheet" href="styles.css">
+    <style>
+        .alert-box {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 150px;
+            max-width: 90%;
+            width: auto;
+            height: auto;
+            padding: 10px;
+            text-transform: capitalize;
+            background: rgb(255, 119, 119);
+            border-top: 10px solid rgb(255, 37, 37);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            color: #fff;
+            font-family: 'roboto', sans-serif;
+            text-align: center;
+            transition: 1s;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="login">
-  <div class="login-header">
-    <h1>Complaint Management System</h1>
-    <div class="user-menu">
-      <div class="dropdown">
-        <img src="ecor.png" alt="Profile Image" class="dropbtn">
-        <div class="dropdown-content">
-          <a href="#">Profile</a>
-          <a href="#">Change Password</a>
-          <a href="#">Logout</a>
-        </div>
-      </div>
+    <div class="alert-box">
+        <p class="alert"></p>
     </div>
-  </div>
+
+    <div class="login-header">
+        <h1>Complaint Management System</h1>
+        <div class="user-menu">
+            <div class="dropdown">
+                <img src="ecor.png" alt="Profile Image" class="dropbtn">
+                <div class="dropdown-content">
+                    <a href="#">Profile</a>
+                    <a href="#">Change Password</a>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-  
-  <div class="login-container">
-    <img src="ecor.png" alt="Profile Image" class="login-img">
-    <h2>Login</h2>
-    <form action="#" method="post">
-      <input type="text" name="employee-id" placeholder="Employee ID" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-    <a href="#" class="forgot-password">Forgot Password?</a>
-  </div>
-  <div class="footer">
-    <p>© 2024 Railway Complaint Management System</p>
-  </div>
+
+    <div class="login-container">
+        <img src="ecor.png" alt="Profile Image" class="login-img">
+        <h2>Login</h2>
+        <form action="#" method="post">
+            <input id="id" type="text" placeholder="Employee ID" required>
+            <input id="password" class="password" type="password" placeholder="Password" required>
+            <button class="submit-button" type="submit">Login</button>
+        </form>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+    </div>
+    <div class="footer">
+        <p>© 2024 Railway Complaint Management System</p>
+    </div>
+    <script src="script_login.js"></script>
 </body>
+
 </html>

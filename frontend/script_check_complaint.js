@@ -36,22 +36,24 @@ function sendData(formData) {
                         module: data[i][6],
                         desc: data[i][7],
                         referenceDoc: data[i][8],
-                        status: data[i][9]
+                        status: data[i][9],
+                        date: data[i][10]
                     };
                     const table = document.querySelector('#complaint-table');
       
                     // Create a new row and add the data
                     const newRow = table.insertRow();
                     newRow.insertCell(0).textContent = newData.complaintId;
-                    newRow.insertCell(1).textContent = newData.empNo;
-                    newRow.insertCell(2).textContent = newData.empName;
-                    newRow.insertCell(3).textContent = newData.division;
-                    newRow.insertCell(4).textContent = newData.department;
-                    newRow.insertCell(5).textContent = newData.website;
-                    newRow.insertCell(6).textContent = newData.module;
-                    newRow.insertCell(7).textContent = newData.desc;
-                    newRow.insertCell(8).textContent = newData.referenceDoc;
-                    newRow.insertCell(9).textContent = newData.status;
+                    newRow.insertCell(1).textContent = newData.date;
+                    newRow.insertCell(2).textContent = newData.empNo;
+                    newRow.insertCell(3).textContent = newData.empName;
+                    newRow.insertCell(4).textContent = newData.division;
+                    newRow.insertCell(5).textContent = newData.department;
+                    newRow.insertCell(6).textContent = newData.website;
+                    newRow.insertCell(7).textContent = newData.module;
+                    newRow.insertCell(8).textContent = newData.desc;
+                    newRow.insertCell(9).textContent = newData.referenceDoc;
+                    newRow.insertCell(10).textContent = newData.status;
                 }
                 
             } else {

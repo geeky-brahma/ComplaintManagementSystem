@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Management System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Complaint Management System</h1>
+    <div class="user-menu">
+      <div class="dropdown">
+        <img src="ecor.png" alt="Profile Image" class="dropbtn">
+        <div class="dropdown-content">
+          <a href="#">Profile</a>
+          <a href="#">Change Password</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="#" class="sidebar-item" id="inbox">Inbox</a>
+      <a href="#" class="sidebar-item">Sent</a>
+      <a href="#" class="sidebar-item">Add User</a>
+      <a href="#" class="sidebar-item">Activate/Deactivate User</a>
+      <a href="#" class="sidebar-item">Reports</a>
+    </div>
+    <div class="main-content" id="main-content">
+      <div class="form-container">
+        <h2>Complaint Details</h2>
+        <div class="complaint-details-single">
+          <table>
+            <tr>
+              <td>Complain ID</td>
+              <td id="complain-id"></td>
+            </tr>
+            <tr>
+              <td>Complain Description</td>
+              <td id="complain-description"></td>
+            </tr>
+            <tr>
+              <td>Website</td>
+              <td id="website"></td>
+            </tr>
+            <tr>
+              <td>Module</td>
+              <td id="module"></td>
+            </tr>
+            <tr>
+              <td>Div</td>
+              <td id="div"></td>
+            </tr>
+            <tr>
+              <td>Employee Name</td>
+              <td id="employee-name"></td>
+            </tr>
+            <tr>
+              <td>Employee No</td>
+              <td id="employee-no"></td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td id="description"></td>
+            </tr>
+            <tr>
+              <td>Reference Document</td>
+              <td id="reference-document"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="radio-group">
+          <label for="close"><input type="radio" id="close" name="action" value="close">Close</label>
+          <label for="forward"><input type="radio" id="forward" name="action" value="forward">Forward</label>
+        </div>
+        <div class="action-content" id="action-content">
+          <!-- This will be populated based on radio button selection -->
+        </div>
+        <div class="form-actions">
+          <button class="submit-button" type="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>© 2024 Railway Complaint Management System</p>
+  </div>
+  <script src="script_admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const closeRadio = document.getElementById("close");
+      const forwardRadio = document.getElementById("forward");
+      const actionContent = document.getElementById("action-content");
+
+      closeRadio.addEventListener("change", function() {
+        if (closeRadio.checked) {
+          actionContent.innerHTML = '<label for="remarks">Remarks:</label><textarea id="remarks" rows="4" cols="50">Remarks</textarea>';
+        }
+      });
+
+      forwardRadio.addEventListener("change", function() {
+        if (forwardRadio.checked) {
+          actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User 1</option><option value="user2">User 2</option><option value="user3">User 3</option><option value="user4">User 4</option></select>';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

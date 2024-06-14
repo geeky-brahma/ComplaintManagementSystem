@@ -13,7 +13,7 @@ def create_db():
     return cur, conn
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 @app.route("/")
 def hello():
     return "Hello, World!"
@@ -45,16 +45,17 @@ def data():
         module = json_data["module"]
         description = json_data["description"]
         reference = json_data["reference"]
+        date= json_data['date']
         status = json_data["status"]
 
         # Construct the SQL INSERT statement
-        sql = """INSERT INTO complaints (employee_no, employee_name, division_hq, department, website, module, description, reference, status)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        sql = """INSERT INTO complaints (employee_no, employee_name, division_hq, department, website, module, description, reference, status, date)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
         # Execute the INSERT statement
         try:
             cursor = conn.cursor()
-            cursor.execute(sql, (employee_no, employee_name, division_hq, department, website, module, description, reference, status))
+            cursor.execute(sql, (employee_no, employee_name, division_hq, department, website, module, description, reference, status, date))
             conn.commit()
             print("Data inserted successfully")
         except (Exception, pg.DatabaseError) as error:
@@ -114,5 +115,31 @@ def all_complaints():
     }
     return flask.Response(response=json.dumps(data_json), status=200)
 
+
+@app.route('/login_users', methods=["POST"])  
+def login_users():
+    if request.method == "POST":
+        json_data = request.get_json()
+        name='user'
+        id = json_data["id"]
+        password = json_data["password"]
+        print(id, password)
+        data_json = {
+            "data": {'name':name, 'id':id}
+        }
+        return flask.Response(response=json.dumps(data_json), status=201)
+@app.route('/register_users', methods=["POST"])  
+def register_users():
+    if request.method == "POST":
+        json_data = request.get_json()
+        
+        name = json_data["name"]
+        id = json_data["id"]
+        password = json_data["password"]
+        print(id, password)
+        data_json = {
+            "data": {'name':name, 'id':id}
+        }
+        return flask.Response(response=json.dumps(data_json), status=201)
 
 

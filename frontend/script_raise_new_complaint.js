@@ -2,9 +2,13 @@
 let submitButton = document.querySelector('button[type="submit"]');
 submitButton.addEventListener('click', (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // Months are zero-indexed
+    const day = now.getDate();
     // Gather form data
     let formData = {
+
         employeeNo: document.querySelector("#employee-no").value,
         employeeName: document.querySelector("#employee-name").value,
         divisionHQ: document.querySelector("#division-hq").value,
@@ -13,6 +17,7 @@ submitButton.addEventListener('click', (e) => {
         module: document.querySelector("#module").value,
         description: document.querySelector("#description").value,
         reference: document.querySelector("#reference").value, // If needed
+        date:`${year}_${month}_${day}`, 
         status: "Under Process"
     };
 

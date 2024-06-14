@@ -204,10 +204,18 @@ body {
     padding: 20px;
     overflow: scroll;
 }
-.main-content h2 {
-    margin-top: auto;
-}
 
+/* .main-content h2 {
+    margin-top: auto;
+} */
+
+ /* admin page welcome text */
+.welcomebox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;        
+  }
 .footer {
     background: #003366;
     color: #fff;
