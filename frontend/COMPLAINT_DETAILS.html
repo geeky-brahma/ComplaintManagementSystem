@@ -88,7 +88,7 @@
   <div class="footer">
     <p>© 2024 Railway Complaint Management System</p>
   </div>
-  <script src="script_admin.js"></script>
+  <script src="script_complaint_details.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const closeRadio = document.getElementById("close");
@@ -97,7 +97,7 @@
 
       closeRadio.addEventListener("change", function() {
         if (closeRadio.checked) {
-          actionContent.innerHTML = '<label for="remarks">Remarks:</label><textarea id="remarks" rows="4" cols="50">Remarks</textarea>';
+          actionContent.innerHTML = '<label for="remarks">Remarks:</label><textarea placeholder="Remarks" id="remarks" rows="4" cols="50"></textarea>';
         }
       });
 
