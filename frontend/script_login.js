@@ -100,7 +100,7 @@ const validateData = (data) => {
         alertBox(data);
     } else {
         sessionStorage.name = data.name;
-        sessionStorage.email = data.email;
+        sessionStorage.role = data.role;
         location.href = 'ADMIN.html';
     }
 }
@@ -108,7 +108,7 @@ const validateData = (data) => {
 const alertBox = (data) => {
     const alertContainer = document.querySelector('.alert-box');
     const alertMsg = document.querySelector('.alert');
-    alertMsg.innerHTML = data;
+    alertMsg.innerHTML = data['alert'];
 
     alertContainer.style.top = `5%`;
     setTimeout(() => {

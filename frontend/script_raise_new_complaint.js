@@ -17,8 +17,9 @@ submitButton.addEventListener('click', (e) => {
         module: document.querySelector("#module").value,
         description: document.querySelector("#description").value,
         reference: document.querySelector("#reference").value, // If needed
-        date:`${year}_${month}_${day}`, 
-        status: "Under Process"
+        date:`${day}/${month}/${year}`, 
+        status: "Under Process",
+        currently_with: 'admin'
     };
 
     // Send form data to the server
