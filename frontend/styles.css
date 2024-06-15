@@ -8,7 +8,8 @@ body {
     margin: 0;
     padding: 0;
     background: #f7f7f7;
-    height: 100vh;
+    /* height: 100vh; */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -193,7 +194,20 @@ body {
 .form-group .reference-upload input[type="file"] {
     margin-left: 10px;
 }
-
+.form-actions {
+    text-align: center;
+}
+.form-actions button {
+    background: #003366;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+form-actions button:hover {
+    background: #0055b3;
+}
 
 
 
@@ -204,6 +218,14 @@ body {
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     padding: 20px;
     overflow: scroll;
+}
+.login-main-content {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
 /* .main-content h2 {
@@ -255,22 +277,34 @@ table th {
 }
 
 /* Login page */
-.login-container {
+/* .login-container {
     background: #fff;
-    /* border: 1px solid #ccc; */
     padding: 20px;
     width: 300px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: auto;
+} */
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 100%;
 }
+
 .login-img {
-    width: inherit;
+    /* width: inherit; */
+    width: 36vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
-.login-container h2 {
+.login-main-content h2 {
     margin-bottom: 20px;
 }
-.login-container input {
+.login-main-content input {
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     padding: 10px;
@@ -278,7 +312,7 @@ table th {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
-.login-container button {
+.login-main-content button {
     width: 100%;
     padding: 10px;
     background: #003366;
@@ -287,7 +321,7 @@ table th {
     border-radius: 3px;
     cursor: pointer;
 }
-.login-container button:hover {
+.login-main-content button:hover {
     background: #002244;
 }
 .forgot-password {
@@ -301,3 +335,14 @@ table th {
 }
 
 /*  Form Page  */
+
+
+@media (max-width: 600px) {
+    .main-content {
+      padding: 10px;
+    }
+  
+    .form-actions button {
+      width: 100%;
+    }
+  }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Management System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Complaint Management System</h1>
+    <div class="user-menu">
+      <div class="dropdown">
+        <img src="ecor.png" alt="Profile Image" class="dropbtn">
+        <div class="dropdown-content" style="cursor: pointer;">
+          <a>Profile</a>
+          <a>Change Password</a>
+          <div id="logout"><a>Logout</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="ADMIN.html" class="sidebar-item" id="inbox">Inbox</a>
+      <a href="#" class="sidebar-item">Sent</a>
+      <a href="REGISTER.html" class="sidebar-item">Add User</a>
+      <a href="#" class="sidebar-item">Activate/Deactivate User</a>
+      <a href="#" class="sidebar-item">Reports</a>
+    </div>
+    <div class="main-content" id="main-content">
+      <div class="login-container">
+        <div class="login-main-content">
+          <h2>Register New User</h2>
+          <form id="registration-form">
+            <div class="form-group">
+              <label for="employee-id">Employee ID</label>
+              <input type="text" id="employee-id" name="employee-id" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>    
+    </div>
+  </div>
+  <div class="footer">
+    <p>© 2024 Railway Complaint Management System</p>
+  </div>
+</body>
+</html>

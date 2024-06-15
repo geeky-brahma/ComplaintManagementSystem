@@ -4,144 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complaint Management System</title>
-<!-- <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  .content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .header {
-    background: #003366;
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-    /* position: relative; */
-  }
-  .login-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    background: #003366;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .container {
-    display: flex;
-    flex: 1;
-  }
-  .sidebar {
-    background: #e6e6e6;
-    padding: 20px;
-    width: 20%;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
-  .sidebar-item {
-    display: block;
-    color: #003366;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 0;
-    margin-bottom: 10px;
-  }
-  .main-content {
-    width: 80%;
-    padding: 20px;
-  }
-  .main-content h2 {
-    margin-top: 0;
-  }
-  .form-container {
-    background: #fff;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  .form-group {
-    margin-bottom: 20px;
-  }
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  .form-group input[type="text"], .form-group select, .form-group textarea {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  .form-group textarea {
-    height: 100px;
-    resize: vertical;
-  }
-  .form-group .inline-group {
-    display: flex;
-    justify-content: space-between;
-  }
-  .form-group .inline-group > div {
-    flex: 1;
-    margin-right: 10px;
-  }
-  .form-group .inline-group > div:last-child {
-    margin-right: 0;
-  }
-  .form-group .help-text {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #666;
-  }
-  .submit-button {
-    padding: 10px 20px;
-    background: #003366;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  .form-group .reference-upload {
-    display: flex;
-    align-items: center;
-  }
-  .form-group .reference-upload input[type="file"] {
-    margin-left: 10px;
-  }
-  .footer {
-    background: #003366;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-  }
-</style> -->
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <!-- ADDED -->
   <div class="header">
     <h1>Complaint Management System</h1>
-    <a href="LOGIN.html" class="login-button">Login</a>
+    <div class="user-menu">
+      <div class="dropdown">
+        <img src="ecor.png" alt="Profile Image" class="dropbtn" />
+        <div class="dropdown-content" style="cursor: pointer;">
+          <a>Profile</a>
+          <a>Change Password</a>
+          <div id="logout"><a>Logout</a></div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="container">
     <div class="sidebar">
       <a href="RAISE_NEW_COMPLAINT.html" class="sidebar-item">Raise Complaint</a>
       <a href="CHECK_COMPLAIN_STATUS.html" class="sidebar-item">Check Complaint Status</a>
-<!-- REMOVED
-  <div class="content">
-    <div class="header">
-      <h1>Complaint Management System</h1>
-      <a href="LOGIN.html" class="login-button">Login</a>
- -->
     </div>
     <div class="main-content">
         <h2>Raise New Complaint</h2>
@@ -203,7 +86,7 @@
 
         </div>
         
-        <div>
+        <div class="form-group">
           <button class="submit-button" type="submit">SUBMIT</button>
         </div>
         <div id="compID">
