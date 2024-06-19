@@ -1,9 +1,15 @@
 inbox.addEventListener("click", (e) => {
+
+    // Define Role & ID
+    role = sessionStorage.role;
+    id = sessionStorage.id;
+
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
-
+    
     // Define the request URL
-    const url = "http://127.0.0.1:5000/all_complaints";
+    const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
+    console.log(url)
 
     // Configure the request
     xhr.open("GET", url);
@@ -77,7 +83,7 @@ inbox.addEventListener("click", (e) => {
                 link.textContent = 'Document';
                 linkCell.appendChild(link);
                 newRow.insertCell(10).textContent = newData.status;
-                
+
             }
         } else {
             // Request failed
@@ -121,3 +127,81 @@ logout.addEventListener('click', (e) => {
 //         location.href = 'LOGIN.html';
 //     } 
 // }
+
+document.getElementById('add_user').addEventListener('click', (e) => {
+    document.querySelector('#main-content').innerHTML = `
+        
+                <div class="form-container">
+                    <h2>Register New User</h2>
+                    <form id="registration-form">
+                        <div class="form-group">
+                            <label for="employee-id">Employee ID</label>
+                            <input type="text" id="employee-id" name="employee-id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select id="role" name="role" required>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit">Register</button>
+                        </div>
+                    </form>
+                    <h3 id="status"></h3>
+                </div>
+
+         
+    `
+    const registerButton = document.querySelector('.form-actions button[type="submit"]');
+    formData = {}
+    registerButton.addEventListener('click', (e) => {
+        e.preventDefault();  // Prevent the default form submission
+        formData["id"] = document.getElementById('employee-id').value;
+        formData["password"] = document.getElementById('password').value;
+        formData["name"] = document.getElementById('name').value;
+        formData["role"] = document.getElementById('role').value;
+        console.log('Form submitted:', { formData });
+        const xhr = new XMLHttpRequest();
+
+        // Define the onload function to handle the response
+        xhr.onload = function () {
+            if (xhr.status === 201) {
+                // Request was successful
+                const responseData = JSON.parse(xhr.responseText);
+                // Process the response data here
+                console.log(responseData);
+
+                data = responseData['data']
+                document.getElementById('status').innerHTML = `
+                ${data}
+              `
+
+            } else {
+                // Request failed
+                console.error("Error:", xhr.status);
+            }
+        };
+
+        // Open a POST request to the server
+        xhr.open("POST", "http://127.0.0.1:5000/register_users");
+
+        // Set request headers
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // window.stop()
+        // Convert form data to JSON and send it to the server
+        xhr.send(JSON.stringify(formData));
+    })
+})
+
+
+

@@ -44,6 +44,7 @@ submitButton.addEventListener('click', () => {
         console.log("Selected complaint type:", selectedText);
         formData = {
             id: ID,
+            forwarded_from: sessionStorage.name,
             forwarded_to: selectedText,
             remarks: textValue,
             date: `${day}/${month}/${year}`
@@ -116,7 +117,9 @@ function sendData(formData) {
                         desc: data[i][7],
                         referenceDoc: data[i][8],
                         status: data[i][9],
-                        date: data[i][10]
+                        date: data[i][10],
+                        currently_with: data[i][12],
+                        remarks: data[i][11]
                     };
 
                     document.getElementById('complain-id').innerText = newData.complaintId;
@@ -126,6 +129,8 @@ function sendData(formData) {
                     document.getElementById('div').innerText = newData.division;
                     document.getElementById('employee-name').innerText = newData.empName;
                     document.getElementById('employee-no').innerText = newData.empNo;
+                    document.getElementById('currently_with').innerText = newData.currently_with;
+                    // document.getElementById('remarks').innerText = newData.remarks;
                     // document.getElementById('description').innerText = description;
                     if (newData.referenceDoc) {
                         const link = document.createElement('a');
@@ -135,34 +140,38 @@ function sendData(formData) {
                     } else {
                         document.getElementById('reference-document').innerText = "No document available";
                     }
-                    // document.getElementById('reference-document').innerText = newData.referenceDoc;
+                    // document.getElementById('history').innerHTML = `<h4 style="color: red;">No History!!!</h4>`;
 
                 }
                 const dataArray = response_summary.data;
                 const innerArray = dataArray[1]; 
                 console.log(innerArray);
-                let html = ''
-                history_place = document.getElementById('history')
-                for (let i = 0; i < innerArray.length; i++) {
-                    const element = innerArray[i]
-                    console.log(element)
-                    html+=`
-                        <div style='border: 1px solid #ddd; padding: 20px;'>
-                            <div>Complaint Id: ${element[1]}</div>
-                            <div>From: ${element[2]}</div>
-                            <div>To: ${element[3]}</div>
-                            <div>Remarks: ${element[4]}</div>
-                            <div>Date: ${element[5]}</div>
-                        </div>
-                    `
-                    // const node = document.createElement("div");
-                    // const textnode = document.createTextNode(`${element}`);
-                    // node.appendChild(textnode);
-                    // history_place.appendChild(node)
+                if (innerArray[0]){    
+                    let html = ''
+                    history_place = document.getElementById('history')
+                    for (let i = 0; i < innerArray.length; i++) {
+                        const element = innerArray[i]
+                        console.log(element)
+                        html+=`
+                            <div style='border: 1px solid #ddd; padding: 20px;'>
+                                <div>Complaint Id: ${element[1]}</div>
+                                <div>From: ${element[2]}</div>
+                                <div>To: ${element[3]}</div>
+                                <div>Remarks: ${element[4]}</div>
+                                <div>Date: ${element[5]}</div>
+                            </div>
+                        `
+                        // const node = document.createElement("div");
+                        // const textnode = document.createTextNode(`${element}`);
+                        // node.appendChild(textnode);
+                        // history_place.appendChild(node)
 
+                    }
+                    history_place.innerHTML = html
                 }
-                history_place.innerHTML = `<h3>Transaction History</h3>
-                ${html}`
+                else{
+                    document.getElementById('history').innerHTML = `<h4 style="color: red;">No History!!!</h4>`;
+                }
                 
 
 
