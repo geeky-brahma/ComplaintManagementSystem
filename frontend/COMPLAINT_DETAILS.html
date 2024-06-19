@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Complaint Management System</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaint Management System</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="header">
     <h1>Complaint Management System</h1>
@@ -24,10 +26,10 @@
   <div class="container">
     <div class="sidebar">
       <a href="ADMIN.html" class="sidebar-item" id="inbox">Inbox</a>
-      <a href="#" class="sidebar-item">Sent</a>
-      <a href="REGISTER.html" class="sidebar-item">Add User</a>
-      <a href="#" class="sidebar-item">Activate/Deactivate User</a>
-      <a href="#" class="sidebar-item">Reports</a>
+      <a href="ADMIN.html" class="sidebar-item">Sent</a>
+      <a href="ADMIN.html" class="sidebar-item">Add User</a>
+      <a href="ADMIN.html" class="sidebar-item">Activate/Deactivate User</a>
+      <a href="ADMIN.html" class="sidebar-item">Reports</a>
     </div>
     <div class="main-content" id="main-content">
       <div class="form-container">
@@ -66,16 +68,16 @@
               <tr>
                 <td>Reference Document</td>
                 <td id="reference-document"></td>
-                
+
               </tr>
               <tr>
                 <td>Currently With</td>
                 <td id="currently_with"></td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Remarks</td>
                 <td id="remark"></td>
-              </tr>
+              </tr> -->
             </table>
             <div class="form-group">
               <div class="radio-group">
@@ -87,21 +89,25 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="remarks">Remarks:</label><textarea placeholder="Remarks" id="remarks" rows="4" cols="30"></textarea>
-              <div class="form-actions form-group">
+              <label for="remarks">Remarks:</label><textarea placeholder="Remarks" id="remarks" rows="4"
+                cols="30"></textarea>
+              <div class="form-actions">
                 <button class="submit-button" type="submit">Submit</button>
               </div>
             </div>
           </div>
-          <div id="history">
+          <div>
             <h3>Transaction History</h3>
-            <h4 style="color: red;">No History!!!</h4>
-              
+            <div id="history">
+              <h4 style="color: red;">No History!!!</h4>
+            </div>
+            
+
           </div>
         </div>
-        
+
         <div id="status">
-          
+
         </div>
       </div>
     </div>
@@ -111,25 +117,35 @@
   </div>
   <script src="script_complaint_details.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    logout.addEventListener('click', (e) => {
+      sessionStorage.clear();
+      location.href = 'LOGIN.html';
+    })
+    // window.onload = () => {
+    //     if(!sessionStorage.role){
+    //         location.href = 'LOGIN.html';
+    //     } 
+    // }
+    document.addEventListener("DOMContentLoaded", function () {
       const closeRadio = document.getElementById("close");
       const forwardRadio = document.getElementById("forward");
       const actionContent = document.getElementById("action-content");
       const status = document.getElementById("status");
 
-      closeRadio.addEventListener("change", function() {
+      closeRadio.addEventListener("change", function () {
         if (closeRadio.checked) {
           actionContent.innerHTML = '';
           status.innerHTML = '';
         }
       });
 
-      forwardRadio.addEventListener("change", function() {
+      forwardRadio.addEventListener("change", function () {
         if (forwardRadio.checked) {
-          actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User 1</option><option value="user2">User 2</option><option value="user3">User 3</option><option value="user4">User 4</option></select>';
+          actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User1</option><option value="user2">User2</option><option value="user3">User3</option><option value="user4">User4</option></select>';
         }
       });
     });
   </script>
 </body>
+
 </html>

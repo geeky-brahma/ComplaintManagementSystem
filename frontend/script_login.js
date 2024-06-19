@@ -101,6 +101,7 @@ const validateData = (data) => {
     } else {
         sessionStorage.name = data.name;
         sessionStorage.role = data.role;
+        sessionStorage.id = data.id;
         location.href = 'ADMIN.html';
     }
 }

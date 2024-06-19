@@ -93,17 +93,41 @@ def status():
         
         return flask.Response(response=json.dumps(return_data), status=201)
 
-# Accessed by admin to see all complaints
+# Accessed by admin/user to see all complaints
 @app.route('/all_complaints', methods=["GET"])  
 def all_complaints():
+    role = request.args.get('role')
+    id = request.args.get('id')
+    name = request.args.get('name')
+    print(role, id, name)
     cursor, conn = create_db()
-    query = "SELECT * FROM complaints order by id desc"
-    cursor.execute(query)
-    records = cursor.fetchall()
-    print(records)
-    data_json = {
-        "data": records
-    }
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+
+    if (role=='user'):
+        print("Sending User Data")
+        cursor, conn = create_db()
+        query1 = f"SELECT * FROM users WHERE employee_id = '{id}'"
+        cursor.execute(query1)
+        record = cursor.fetchone()
+        user = record[1]
+        query2 = f"SELECT * FROM complaints WHERE currently_with = '{user}' ORDER BY id DESC"
+        cursor.execute(query2)
+        records = cursor.fetchall()
+        # print(records)
+        data_json = {
+            "data": records
+        }
+    else:
+        cursor, conn = create_db()
+        query = "SELECT * FROM complaints order by id desc"
+        cursor.execute(query)
+        records = cursor.fetchall()
+        # print(records)
+        data_json = {
+            "data": records
+        }
     return flask.Response(response=json.dumps(data_json), status=200)
 
 # Login Users
@@ -114,8 +138,8 @@ def login_users():
         id = json_data["id"]
         password = json_data["password"]
         cursor, conn = create_db()
-        # try:
-        query = "SELECT * FROM users WHERE employee_id = '1111'"
+        
+        query = f"SELECT * FROM users WHERE employee_id = '{id}'"
         cursor.execute(query, id)
         record = cursor.fetchone()
         if (record[0]==id):
@@ -151,15 +175,46 @@ def login_users():
 def register_users():
     if request.method == "POST":
         json_data = request.get_json()
-        
+        cursor, conn = create_db()
         name = json_data["name"]
         id = json_data["id"]
         password = json_data["password"]
+        role = json_data["role"]
         print(id, password)
-        data_json = {
-            "data": {'name':name, 'id':id}
-        }
-        return flask.Response(response=json.dumps(data_json), status=201)
+        if role=="user":
+            scope=False
+        else:
+            scope=True
+            
+        try:
+            # Update the complaints table
+            query = """
+            INSERT INTO users (employee_id, employee_name, password, scope)
+            VALUES (%s, %s, %s, %s)
+            """
+            cursor.execute(query, (id, name, password, scope))
+            
+            
+            # Commit the changes
+            conn.commit()
+            
+            # Prepare the response
+            data_json = {
+                "data": f'User Registered: {name} with ID {id}'
+            }
+            return flask.Response(response=json.dumps(data_json), status=201, mimetype='application/json')
+            
+        except Exception as e:
+            # Rollback the changes if an error occurs
+            conn.rollback()
+            return flask.Response(response=json.dumps({"error": str(e)}), status=500, mimetype='application/json')
+            
+        finally:
+            # Close the cursor and connection
+            cursor.close()
+            conn.close()
+
+        
 
 # Close or forward a complaint
 @app.route('/close_forward', methods=["POST"])  
@@ -179,6 +234,7 @@ def close_forward():
             return flask.Response(response=json.dumps(data_json), status=201)
         else:
             id = json_data['id']
+            forwarded_from= json_data['forwarded_from']
             forwarded_to= json_data['forwarded_to']
             remark= json_data['remarks']
             date= json_data['date']
@@ -196,7 +252,7 @@ def close_forward():
                     INSERT INTO transactions (fwd_from, fwd_to, remarks, date, complaint_id) 
                     VALUES (%s, %s, %s, %s, %s)
                 """
-                cursor.execute(query2, ('admin', forwarded_to, remark, date, id))
+                cursor.execute(query2, (forwarded_from, forwarded_to, remark, date, id))
                 
                 # Commit the changes
                 conn.commit()
@@ -244,3 +300,53 @@ def complaint_details():
         }
         
         return flask.Response(response=json.dumps(return_data), status=201)
+    
+
+# Accessed by admin to see all complaints
+@app.route('/sent', methods=["GET"])  
+def sent():
+    role = 'admin'
+    id = '1024'
+    name = 'Admin'
+    print(role, id, name)
+    cursor, conn = create_db()
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+    print(record)
+    result=[]
+    for i in record:
+        print(i[0])
+        query1 = f"SELECT * FROM complaints WHERE id = {int(i[0])}"
+        cursor.execute(query1)
+        records = cursor.fetchall()
+        result.append(records[0])
+        print(records[0])
+    print(result)
+    data_json = {
+            "data": result
+    }
+    return flask.Response(response=json.dumps(data_json), status=200)
+
+
+if __name__ == '__main__':
+    role = 'admin'
+    id = '1024'
+    name = 'Admin'
+    print(role, id, name)
+    cursor, conn = create_db()
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+    print(record)
+    result=[]
+    for i in record:
+        print(i[0])
+        query1 = f"SELECT * FROM complaints WHERE id = {int(i[0])}"
+        cursor.execute(query1)
+        records = cursor.fetchall()
+        result.append(records[0])
+        print(records[0])
+    print(result)
+
+    
