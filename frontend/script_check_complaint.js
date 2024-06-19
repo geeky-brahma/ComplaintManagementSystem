@@ -52,7 +52,12 @@ function sendData(formData) {
                     newRow.insertCell(6).textContent = newData.website;
                     newRow.insertCell(7).textContent = newData.module;
                     newRow.insertCell(8).textContent = newData.desc;
-                    newRow.insertCell(9).textContent = newData.referenceDoc;
+                    // newRow.insertCell(9).textContent = newData.referenceDoc;
+                    const linkCell = newRow.insertCell(9);
+                    const link = document.createElement('a');
+                    link.href = newData.referenceDoc;
+                    link.textContent = 'Click here';
+                    linkCell.appendChild(link);
                     newRow.insertCell(10).textContent = newData.status;
                 }
                 
