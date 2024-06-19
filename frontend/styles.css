@@ -137,7 +137,7 @@ body {
     display: block;
     margin-bottom: 5px;
 }
-.form-group input[type="text"], .form-group select, .form-group textarea {
+.form-group input[type="text"], .form-group select, .form-group textarea, .form-group input[type="password"] {
     width: calc(100% - 22px);
     padding: 10px;
     border: 1px solid #ccc;

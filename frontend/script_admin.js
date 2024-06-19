@@ -154,7 +154,7 @@ document.getElementById('add_user').addEventListener('click', (e) => {
                             </select>
                         </div>
                         <div class="form-actions">
-                            <button type="submit">Register</button>
+                            <button class='submit-button' type="submit">Register</button>
                         </div>
                     </form>
                     <h3 id="status"></h3>
