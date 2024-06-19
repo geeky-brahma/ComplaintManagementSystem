@@ -93,12 +93,18 @@ def status():
         
         return flask.Response(response=json.dumps(return_data), status=201)
 
-# Accessed by admin to see all complaints
+# Accessed by admin/user to see all complaints
 @app.route('/all_complaints', methods=["GET"])  
 def all_complaints():
     role = request.args.get('role')
     id = request.args.get('id')
-    print(role, id)
+    name = request.args.get('name')
+    print(role, id, name)
+    cursor, conn = create_db()
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+
     if (role=='user'):
         print("Sending User Data")
         cursor, conn = create_db()
@@ -294,3 +300,53 @@ def complaint_details():
         }
         
         return flask.Response(response=json.dumps(return_data), status=201)
+    
+
+# Accessed by admin to see all complaints
+@app.route('/sent', methods=["GET"])  
+def sent():
+    role = 'admin'
+    id = '1024'
+    name = 'Admin'
+    print(role, id, name)
+    cursor, conn = create_db()
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+    print(record)
+    result=[]
+    for i in record:
+        print(i[0])
+        query1 = f"SELECT * FROM complaints WHERE id = {int(i[0])}"
+        cursor.execute(query1)
+        records = cursor.fetchall()
+        result.append(records[0])
+        print(records[0])
+    print(result)
+    data_json = {
+            "data": result
+    }
+    return flask.Response(response=json.dumps(data_json), status=200)
+
+
+if __name__ == '__main__':
+    role = 'admin'
+    id = '1024'
+    name = 'Admin'
+    print(role, id, name)
+    cursor, conn = create_db()
+    query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"
+    cursor.execute(query1)
+    record = cursor.fetchall()
+    print(record)
+    result=[]
+    for i in record:
+        print(i[0])
+        query1 = f"SELECT * FROM complaints WHERE id = {int(i[0])}"
+        cursor.execute(query1)
+        records = cursor.fetchall()
+        result.append(records[0])
+        print(records[0])
+    print(result)
+
+    
