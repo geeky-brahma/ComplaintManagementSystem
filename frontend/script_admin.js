@@ -80,7 +80,7 @@ inbox.addEventListener("click", (e) => {
                 const linkCell = newRow.insertCell(8);
                 const link = document.createElement('a');
                 link.href = newData.referenceDoc;
-                link.textContent = 'Document';
+                link.textContent = 'Click here';
                 linkCell.appendChild(link);
                 newRow.insertCell(10).textContent = newData.status;
 
