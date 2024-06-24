@@ -305,9 +305,9 @@ def complaint_details():
 # Accessed by admin to see all complaints
 @app.route('/sent', methods=["GET"])  
 def sent():
-    role = 'admin'
-    id = '1024'
-    name = 'Admin'
+    role = request.args.get('role')
+    id = request.args.get('id')
+    name = request.args.get('name')
     print(role, id, name)
     cursor, conn = create_db()
     query1 = f"SELECT complaint_id FROM transactions WHERE fwd_from = '{name}'"

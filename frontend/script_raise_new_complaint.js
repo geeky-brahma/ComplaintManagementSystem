@@ -17,13 +17,20 @@ submitButton.addEventListener('click', (e) => {
         module: document.querySelector("#module").value,
         description: document.querySelector("#description").value,
         reference: document.querySelector("#reference").value, // If needed
-        date:`${day}/${month}/${year}`, 
+        date: `${day}/${month}/${year}`,
         status: "Under Process",
         currently_with: 'admin'
     };
+    
+    if (formData.employeeNo && formData.employeeName && formData.description) {
+        // Send form data to the server
+        sendData(formData);
+    }
+    else {
+        compID = document.querySelector("#compID")
+        compID.innerHTML = `<h2>Fill in the details correctly</h2>`
+    }
 
-    // Send form data to the server
-    sendData(formData);
 });
 
 function sendData(formData) {
@@ -31,7 +38,7 @@ function sendData(formData) {
     let xhr = new XMLHttpRequest();
 
     // Callback function to handle response
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 201) {
                 console.log("Data sent successfully!");
@@ -40,7 +47,7 @@ function sendData(formData) {
                 // response_summary = this.responseText
                 console.log(response_summary)
                 compID = document.querySelector("#compID")
-                compID.innerHTML =`<h2>Complaint ID Generated: ${response_summary['Complaint ID']}</h2>`
+                compID.innerHTML = `<h2>Complaint ID Generated: ${response_summary['Complaint ID']}</h2>`
             } else {
                 console.error("Failed to send data. Status code: " + xhr.status);
                 // Handle error response from server if needed
