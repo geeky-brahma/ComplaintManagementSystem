@@ -33,8 +33,8 @@ inbox.addEventListener("click", (e) => {
                 <th>DEPARTMENT</th>
                 <th>WEBSITE</th>
                 <th>MODULE</th>
-                <th>DESC</th>
                 <th>REFERENCE DOCUMENT</th>
+                <th>DESC</th>
                 <th>STATUS</th>
             </tr>
             <!-- Table rows can be added here as needed -->
@@ -202,6 +202,71 @@ document.getElementById('add_user').addEventListener('click', (e) => {
         xhr.send(JSON.stringify(formData));
     })
 })
+document.getElementById('activate_deactivate_user').addEventListener('click', (e) => {
+    // Create a new XMLHttpRequest object
+    const xhr = new XMLHttpRequest();
+    
+    // Define the request URL
+    const url = `http://127.0.0.1:5000/all_users`;
+    console.log(url)
+
+    // Configure the request
+    xhr.open("GET", url);
+
+    // Define the onload function to handle the response
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // Request was successful
+            const responseData = JSON.parse(xhr.responseText);
+            // Process the response data here
+            console.log(responseData);
+            main_content = document.querySelector('#main-content')
+            main_content.innerHTML = `
+            <table class="table" id="users-table">
+            <tr>
+                <th>EMPLOYEE ID</th>
+                <th>EMPLOYEE NAME</th>
+                <th>SCOPE</th>
+            </tr>
+            <!-- Table rows can be added here as needed -->
+            </table>`
+            data = responseData['data']
+            console.log(responseData)
+            for (let i = 0; i < data.length; i++) {
+                const newData = {
+                    empId: data[i][1],
+                    empName: data[i][2],
+                    scope: data[i][4],
+                };
+                const table = document.querySelector('#users-table');
+
+                // Create a new row and add the data
+                const newRow = table.insertRow();
+
+                newRow.insertCell(0).textContent = newData.empId;
+                newRow.insertCell(1).textContent = newData.empName;
+                if (newData.scope) {
+                    newRow.insertCell(2).textContent = 'Admin';
+                }else {
+                    newRow.insertCell(2).textContent = 'User';
+                }
+            }
+        } else {
+            // Request failed
+            console.error("Error:", xhr.status);
+        }
+    };
+
+    // Define the onerror function to handle errors
+    xhr.onerror = function () {
+        console.error("Request failed");
+    };
+
+    // Send the request
+    xhr.send();
+
+});
+
 
 document.getElementById('sent').addEventListener("click", (e) => {
 
@@ -239,8 +304,8 @@ document.getElementById('sent').addEventListener("click", (e) => {
                 <th>DEPARTMENT</th>
                 <th>WEBSITE</th>
                 <th>MODULE</th>
-                <th>DESC</th>
                 <th>REFERENCE DOCUMENT</th>
+                <th>DESC</th>
                 <th>STATUS</th>
             </tr>
             <!-- Table rows can be added here as needed -->

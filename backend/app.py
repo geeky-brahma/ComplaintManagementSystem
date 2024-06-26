@@ -130,6 +130,18 @@ def all_complaints():
         }
     return flask.Response(response=json.dumps(data_json), status=200)
 
+#get_users
+@app.route('/all_users', methods=["GET"])
+def all_users():
+    cursor, conn = create_db()
+    query = "SELECT * FROM users"
+    cursor.execute(query)
+    records = cursor.fetchall()
+    data_json = {
+        "data": records
+    }
+    return flask.Response(response=json.dumps(data_json), status=200)
+
 # Login Users
 @app.route('/login_users', methods=["POST"])  
 def login_users():
@@ -142,9 +154,9 @@ def login_users():
         query = f"SELECT * FROM users WHERE employee_id = '{id}'"
         cursor.execute(query, id)
         record = cursor.fetchone()
-        if (record[0]==id):
-            if (record[2]==password):
-                if (record[3]):
+        if (record[1]==id):
+            if (record[3]==password):
+                if (record[4]):
                     role = 'admin'
                 else:
                     role = 'user'
