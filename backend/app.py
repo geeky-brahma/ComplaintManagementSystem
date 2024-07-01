@@ -142,45 +142,17 @@ def all_users():
     }
     return flask.Response(response=json.dumps(data_json), status=200)
 
-# Login Users
-@app.route('/login_users', methods=["POST"])  
-def login_users():
-    if request.method == "POST":
-        json_data = request.get_json()
-        id = json_data["id"]
-        password = json_data["password"]
-        cursor, conn = create_db()
-        
-        query = f"SELECT * FROM users WHERE employee_id = '{id}'"
-        cursor.execute(query, id)
-        record = cursor.fetchone()
-        if (record[1]==id):
-            if (record[3]==password):
-                if (record[4]):
-                    role = 'admin'
-                else:
-                    role = 'user'
-                print(id, password)
-                data_json = {
-                    "data": {
-                        'name': record[1], 
-                        'id': id,
-                        'role': role
-                        }
-                }
-            else:
-                data_json = {
-                    "data": { 
-                        'alert': "Wrong Password" 
-                        }
-                }
-        else:
-            data_json = {
-                    "data": { 
-                        'alert': "No Access!!" 
-                        }
-                }
-        return flask.Response(response=json.dumps(data_json), status=201)
+@app.route('/drop_user/<userId>', methods=["DELETE"])
+def drop_user(userId):
+    cursor, conn = create_db()
+    query = "DELETE FROM users WHERE id = %s"
+    cursor.execute(query, (int(userId),))
+    cursor.execute(query, (userId,))
+    conn.commit()
+    data_json = {
+        "data": f"User with ID {userId} has been deleted"
+    }
+    return flask.Response(response=json.dumps(data_json), status=200)
 
 # Register new User
 @app.route('/register_users', methods=["POST"])  
