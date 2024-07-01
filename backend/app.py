@@ -150,7 +150,7 @@ def login_users():
         id = json_data["id"]
         password = json_data["password"]
         cursor, conn = create_db()
-        
+
         query = f"SELECT * FROM users WHERE employee_id = '{id}'"
         cursor.execute(query, id)
         record = cursor.fetchone()
@@ -181,6 +181,19 @@ def login_users():
                         }
                 }
         return flask.Response(response=json.dumps(data_json), status=201)
+    
+    
+@app.route('/drop_user/<userId>', methods=["DELETE"])
+def drop_user(userId):
+    cursor, conn = create_db()
+    query = "DELETE FROM users WHERE id = %s"
+    cursor.execute(query, (int(userId),))
+    cursor.execute(query, (userId,))
+    conn.commit()
+    data_json = {
+        "data": f"User with ID {userId} has been deleted"
+    }
+    return flask.Response(response=json.dumps(data_json), status=200)
 
 # Register new User
 @app.route('/register_users', methods=["POST"])  
