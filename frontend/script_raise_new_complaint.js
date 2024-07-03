@@ -3,38 +3,108 @@ document.addEventListener('DOMContentLoaded', async() => {
     const employeeNoInput = document.getElementById('employee-no');
     const errorElement = document.getElementById('employee-no-error');
 
-    const departmentDropdown = document.getElementById('department')
-    const websiteDropdown = document.getElementById('website')
-    const moduleDropdown = document.getElementById('module')
-    
+    const departmentDropdown = document.getElementById('department');
+    const websiteDropdown = document.getElementById('website');
+    const moduleDropdown = document.getElementById('module');
+
+    let departments = [];
+
     try {
         const response = await fetch('http://127.0.0.1:5000/department');
         if (!response.ok) {
             throw new Error('Failed to fetch department data.');
         }
         const data = await response.json();
-        const departments = data.data;
+        departments = data.data;
 
-        // Populate the dropdowns with the fetched data
-        departments.forEach(item => {
+        // Populate the department dropdown with the fetched data
+        departmentDropdown.innerHTML = '<option value="">Select Department</option>';
+        const uniqueDepartments = [...new Set(departments.map(item => item.department))];
+        uniqueDepartments.forEach(department => {
             const departmentOption = document.createElement('option');
-            departmentOption.value = item.department;
-            departmentOption.text = item.department;
+            departmentOption.value = department;
+            departmentOption.text = department;
             departmentDropdown.appendChild(departmentOption);
+        });
 
+        // Call updateWebsiteDropdown to initialize the website dropdown based on the default selected department
+        updateWebsiteDropdown();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+    const updateWebsiteDropdown = () => {
+        const selectedDepartment = departmentDropdown.value;
+        const filteredWebsites = departments.filter(item => item.department === selectedDepartment);
+
+        // Clear the existing options
+        websiteDropdown.innerHTML = '<option value="">Select Website</option>';
+        moduleDropdown.innerHTML = '<option value="">Select Module</option>';
+
+        // Populate the website dropdown
+        const uniqueWebsites = [...new Set(filteredWebsites.map(item => item.module))];
+        uniqueWebsites.forEach(website => {
             const websiteOption = document.createElement('option');
-            websiteOption.value = item.module;
-            websiteOption.text = item.module;
+            websiteOption.value = website;
+            websiteOption.text = website;
             websiteDropdown.appendChild(websiteOption);
+        });
 
+        // Call updateModuleDropdown to initialize the module dropdown based on the default selected website
+        updateModuleDropdown();
+    };
+
+    const updateModuleDropdown = () => {
+        const selectedWebsite = websiteDropdown.value;
+        const filteredModules = departments.filter(item => item.module === selectedWebsite);
+
+        // Clear the existing options
+        moduleDropdown.innerHTML = '<option value="">Select Module</option>';
+
+        // Populate the module dropdown
+        filteredModules.forEach(item => {
             const moduleOption = document.createElement('option');
             moduleOption.value = item.sub_module;
             moduleOption.text = item.sub_module;
             moduleDropdown.appendChild(moduleOption);
         });
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    };
+
+    departmentDropdown.addEventListener('change', updateWebsiteDropdown);
+    websiteDropdown.addEventListener('change', updateModuleDropdown);
+
+    // const departmentDropdown = document.getElementById('department')
+    // const websiteDropdown = document.getElementById('website')
+    // const moduleDropdown = document.getElementById('module')
+    
+    // try {
+    //     const response = await fetch('http://127.0.0.1:5000/department');
+    //     if (!response.ok) {
+    //         throw new Error('Failed to fetch department data.');
+    //     }
+    //     const data = await response.json();
+    //     const departments = data.data;
+
+    //     // Populate the dropdowns with the fetched data
+    //     departments.forEach(item => {
+    //         const departmentOption = document.createElement('option');
+    //         departmentOption.value = item.department;
+    //         departmentOption.text = item.department;
+    //         departmentDropdown.appendChild(departmentOption);
+
+    //         const websiteOption = document.createElement('option');
+    //         websiteOption.value = item.module;
+    //         websiteOption.text = item.module;
+    //         websiteDropdown.appendChild(websiteOption);
+
+    //         const moduleOption = document.createElement('option');
+    //         moduleOption.value = item.sub_module;
+    //         moduleOption.text = item.sub_module;
+    //         moduleDropdown.appendChild(moduleOption);
+    //     });
+    // } catch (error) {
+    //     console.error('Error:', error);
+    // }
     
     employeeNoInput.addEventListener('input', () => {
         if (employeeNoInput.value.length === 11) {
