@@ -96,6 +96,10 @@ module.exports = {
     });
   },
 
+  department: (req, res) => {
+    
+  },
+
   status: (req, res) => {
     const { IDType, ID } = req.body;
 
