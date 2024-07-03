@@ -62,7 +62,9 @@ inbox.addEventListener("click", (e) => {
                     window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
                 });
                 newRow.style.cursor = 'pointer';
-
+                if (newData.status === "Closed"){
+                    continue;
+                }else{
                 newRow.insertCell(0).textContent = newData.complaintId;
                 newRow.insertCell(1).textContent = newData.date;
                 newRow.insertCell(2).textContent = newData.empNo;
@@ -81,6 +83,7 @@ inbox.addEventListener("click", (e) => {
                 // link.textContent = 'Click here';
                 // linkCell.appendChild(link);
                 newRow.insertCell(9).textContent = newData.status;
+                }
             }
         })
         .catch(error => {
