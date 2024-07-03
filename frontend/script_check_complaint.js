@@ -57,7 +57,7 @@ function updateTable(data) {
         website= entry.website
         module= entry.module
         desc= entry.description
-        referenceDoc= entry.referenceDoc
+        // referenceDoc= entry.referenceDoc
         status= entry.status
         date= entry.date
 
@@ -72,13 +72,13 @@ function updateTable(data) {
         newRow.insertCell(7).textContent = module;
         newRow.insertCell(8).textContent = desc;
 
-        const linkCell = newRow.insertCell(9);
-        const link = document.createElement('a');
-        link.href = referenceDoc;
-        link.textContent = 'Click here';
-        linkCell.appendChild(link);
+        // const linkCell = newRow.insertCell(9);
+        // const link = document.createElement('a');
+        // link.href = referenceDoc;
+        // link.textContent = 'Click here';
+        // linkCell.appendChild(link);
 
-        newRow.insertCell(10).textContent = status;
+        newRow.insertCell(9).textContent = status;
     });
 }
 
