@@ -31,7 +31,6 @@ inbox.addEventListener("click", (e) => {
                 <th>DEPARTMENT</th>
                 <th>WEBSITE</th>
                 <th>MODULE</th>
-                <th>REFERENCE DOCUMENT</th>
                 <th>DESC</th>
                 <th>STATUS</th>
             </tr>
@@ -75,12 +74,13 @@ inbox.addEventListener("click", (e) => {
                 newRow.insertCell(8).textContent = newData.desc;
                 // newRow.insertCell(9).textContent = newData.referenceDoc;
                 //updated the reference column to a hyperlink
-                const linkCell = newRow.insertCell(8);
-                const link = document.createElement('a');
-                link.href = newData.referenceDoc;
-                link.textContent = 'Click here';
-                linkCell.appendChild(link);
-                newRow.insertCell(10).textContent = newData.status;
+                // const linkCell = newRow.insertCell(8);
+                // const link = document.createElement('a');
+                // console.log(newData.referenceDoc);
+                // link.href = newData.referenceDoc;
+                // link.textContent = 'Click here';
+                // linkCell.appendChild(link);
+                newRow.insertCell(9).textContent = newData.status;
             }
         })
         .catch(error => {
