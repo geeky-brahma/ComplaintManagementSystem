@@ -1,26 +1,26 @@
 inbox.addEventListener("click", (e) => {
+  // Define Role & ID
+  const role = sessionStorage.role;
+  const id = sessionStorage.id;
+  const name = sessionStorage.name;
+  console.log(name);
+  // Define the request URL
+  const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
+  console.log(url);
 
-    // Define Role & ID
-    const role = sessionStorage.role;
-    const id = sessionStorage.id;
-
-    // Define the request URL
-    const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
-    console.log(url)
-
-    // Send data using Fetch API
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            // Request was successful
-            console.log(responseData);
-            const main_content = document.querySelector('#main-content');
-            main_content.innerHTML = `
+  // Send data using Fetch API
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((responseData) => {
+      // Request was successful
+      console.log(responseData);
+      const main_content = document.querySelector("#main-content");
+      main_content.innerHTML = `
             <table class="table" id="complaint-table">
             <tr>
                 <th>COMPLAINT ID</th>
@@ -37,62 +37,67 @@ inbox.addEventListener("click", (e) => {
             <!-- Table rows can be added here as needed -->
             </table>`;
 
-            const data = responseData['data'];
-            for (let i = 0; i < data.length; i++) {
-                const newData = {
-                    complaintId: data[i].id,
-                    empNo: data[i].employee_no,
-                    empName: data[i].employee_name,
-                    division: data[i].division_hq,
-                    department: data[i].department,
-                    website: data[i].website,
-                    module: data[i].module,
-                    desc: data[i].description,
-                    referenceDoc: data[i].referenceDoc,
-                    status: data[i].status,
-                    date: data[i].date
-                };
-                const table = document.querySelector('#complaint-table');
+      const data = responseData["data"];
+      for (let i = 0; i < data.length; i++) {
+        const newData = {
+          complaintId: data[i].id,
+          empNo: data[i].employee_no,
+          empName: data[i].employee_name,
+          division: data[i].division_hq,
+          department: data[i].department,
+          website: data[i].website,
+          module: data[i].module,
+          desc: data[i].description,
+          referenceDoc: data[i].referenceDoc,
+          status: data[i].status,
+          date: data[i].date,
+          currently_with: data[i].currently_with,
+        };
+        const table = document.querySelector("#complaint-table");
 
-                // Create a new row and add the data
-                const newRow = table.insertRow();
+        // Create a new row and add the data
+        const newRow = table.insertRow();
 
-                // Add event listener to navigate to the complaint details of that page
-                newRow.addEventListener('click', () => {
-                    window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
-                });
-                newRow.style.cursor = 'pointer';
-                if (newData.status === "Closed"){
-                    continue;
-                }else{
-                newRow.insertCell(0).textContent = newData.complaintId;
-                newRow.insertCell(1).textContent = newData.date;
-                newRow.insertCell(2).textContent = newData.empNo;
-                newRow.insertCell(3).textContent = newData.empName;
-                newRow.insertCell(4).textContent = newData.division;
-                newRow.insertCell(5).textContent = newData.department;
-                newRow.insertCell(6).textContent = newData.website;
-                newRow.insertCell(7).textContent = newData.module;
-                newRow.insertCell(8).textContent = newData.desc;
-                // newRow.insertCell(9).textContent = newData.referenceDoc;
-                //updated the reference column to a hyperlink
-                // const linkCell = newRow.insertCell(8);
-                // const link = document.createElement('a');
-                // console.log(newData.referenceDoc);
-                // link.href = newData.referenceDoc;
-                // link.textContent = 'Click here';
-                // linkCell.appendChild(link);
-                newRow.insertCell(9).textContent = newData.status;
-                }
-            }
-        })
-        .catch(error => {
-            // Request failed
-            console.error('Error:', error);
+        // Add event listener to navigate to the complaint details of that page
+        newRow.addEventListener("click", () => {
+          window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
         });
+        newRow.style.cursor = "pointer";
+        if (
+          newData.status === "Closed" ||
+          newData.currently_with != sessionStorage.name
+        ) {
+          console.log("random shittery");
+          continue;
+        } else {
+          newRow.insertCell(0).textContent = newData.complaintId;
+          newRow.insertCell(1).textContent = newData.date;
+          newRow.insertCell(2).textContent = newData.empNo;
+          newRow.insertCell(3).textContent = newData.empName;
+          newRow.insertCell(4).textContent = newData.division;
+          newRow.insertCell(5).textContent = newData.department;
+          newRow.insertCell(6).textContent = newData.website;
+          newRow.insertCell(7).textContent = newData.module;
+          newRow.insertCell(8).textContent = newData.desc;
+          // newRow.insertCell(9).textContent = newData.referenceDoc;
+          //updated the reference column to a hyperlink
+          // const linkCell = newRow.insertCell(8);
+          // const link = document.createElement('a');
+          // console.log(newData.referenceDoc);
+          // link.href = newData.referenceDoc;
+          // link.textContent = 'Click here';
+          // linkCell.appendChild(link);
+          newRow.insertCell(9).textContent = newData.status;
+        }
+      }
+    })
+    .catch((error) => {
+      // Request failed
+      console.error("Error:", error);
+    });
 
-    const main_content = document.querySelector('#main-content');
-    main_content.innerHTML = `
+  const main_content = document.querySelector("#main-content");
+  main_content.innerHTML = `
     <table class="table">
       <tr>
         <th>COMPLAINT ID</th>
@@ -107,20 +112,20 @@ inbox.addEventListener("click", (e) => {
     </table>`;
 });
 
-const logOut = document.querySelector('.logout');
+const logOut = document.querySelector(".logout");
 
-logout.addEventListener('click', (e) => {
-    sessionStorage.clear();
-    location.href = 'LOGIN.html';
-})
-// window.onload = () => {
-//     if(!sessionStorage.role){
-//         location.href = 'LOGIN.html';
-//     } 
-// }
+logout.addEventListener("click", (e) => {
+  sessionStorage.clear();
+  location.href = "LOGIN.html";
+});
+window.onload = () => {
+  if (!sessionStorage.role) {
+    location.href = "LOGIN.html";
+  }
+};
 
-document.getElementById('add_user').addEventListener('click', (e) => {
-    document.querySelector('#main-content').innerHTML = `
+document.getElementById("add_user").addEventListener("click", (e) => {
+  document.querySelector("#main-content").innerHTML = `
         
                 <div class="form-container">
                     <h2>Register New User</h2>
@@ -152,67 +157,70 @@ document.getElementById('add_user').addEventListener('click', (e) => {
                 </div>
 
          
-    `
-    const registerButton = document.querySelector('.form-actions button[type="submit"]');
-    formData = {}
-    registerButton.addEventListener('click', (e) => {
-        e.preventDefault();  // Prevent the default form submission
-        formData["id"] = document.getElementById('employee-id').value;
-        formData["password"] = document.getElementById('password').value;
-        formData["name"] = document.getElementById('name').value;
-        formData["role"] = document.getElementById('role').value;
-        console.log('Form submitted:', { formData });
-        const xhr = new XMLHttpRequest();
+    `;
+  const registerButton = document.querySelector(
+    '.form-actions button[type="submit"]'
+  );
+  formData = {};
+  registerButton.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent the default form submission
+    formData["id"] = document.getElementById("employee-id").value;
+    formData["password"] = document.getElementById("password").value;
+    formData["name"] = document.getElementById("name").value;
+    formData["role"] = document.getElementById("role").value;
+    console.log("Form submitted:", { formData });
+    const xhr = new XMLHttpRequest();
 
-        // Define the onload function to handle the response
-        xhr.onload = function () {
-            if (xhr.status === 201) {
-                // Request was successful
-                const responseData = JSON.parse(xhr.responseText);
-                // Process the response data here
-                console.log(responseData);
+    // Define the onload function to handle the response
+    xhr.onload = function () {
+      if (xhr.status === 201) {
+        // Request was successful
+        const responseData = JSON.parse(xhr.responseText);
+        // Process the response data here
+        console.log(responseData);
 
-                data = responseData['data']
-                document.getElementById('status').innerHTML = `
+        data = responseData["data"];
+        document.getElementById("status").innerHTML = `
                 ${data}
-              `
+              `;
+      } else {
+        // Request failed
+        console.error("Error:", xhr.status);
+      }
+    };
 
-            } else {
-                // Request failed
-                console.error("Error:", xhr.status);
-            }
-        };
+    // Open a POST request to the server
+    xhr.open("POST", "http://127.0.0.1:5000/register_users");
 
-        // Open a POST request to the server
-        xhr.open("POST", "http://127.0.0.1:5000/register_users");
-
-        // Set request headers
-        xhr.setRequestHeader("Content-Type", "application/json");
-        // window.stop()
-        // Convert form data to JSON and send it to the server
-        xhr.send(JSON.stringify(formData));
-    })
-})
-document.getElementById('activate_deactivate_user').addEventListener('click', (e) => {
+    // Set request headers
+    xhr.setRequestHeader("Content-Type", "application/json");
+    // window.stop()
+    // Convert form data to JSON and send it to the server
+    xhr.send(JSON.stringify(formData));
+  });
+});
+document
+  .getElementById("activate_deactivate_user")
+  .addEventListener("click", (e) => {
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
-    
+
     // Define the request URL
     const url = `http://127.0.0.1:5000/all_users`;
-    console.log(url)
+    console.log(url);
 
     // Configure the request
     xhr.open("GET", url);
 
     // Define the onload function to handle the response
     xhr.onload = function () {
-        if (xhr.status === 200) {
-            // Request was successful
-            const responseData = JSON.parse(xhr.responseText);
-            // Process the response data here
-            console.log(responseData);
-            main_content = document.querySelector('#main-content')
-            main_content.innerHTML = `
+      if (xhr.status === 200) {
+        // Request was successful
+        const responseData = JSON.parse(xhr.responseText);
+        // Process the response data here
+        console.log(responseData);
+        main_content = document.querySelector("#main-content");
+        main_content.innerHTML = `
             <table class="table" id="users-table">
             <tr>
                 <th>EMPLOYEE ID</th>
@@ -221,98 +229,94 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
                 <th>DROP</th>
             </tr>
             <!-- Table rows can be added here as needed -->
-            </table>`
-            data = responseData['data']
-            console.log(responseData)
-            for (let i = 0; i < data.length; i++) {
-                const newData = {
-                    empId: data[i].employee_id,
-                    empName: data[i].employee_name,
-                    scope: data[i].scope,
-                };
-                const table = document.querySelector('#users-table');
+            </table>`;
+        data = responseData["data"];
+        console.log(responseData);
+        for (let i = 0; i < data.length; i++) {
+          const newData = {
+            empId: data[i].employee_id,
+            empName: data[i].employee_name,
+            scope: data[i].scope,
+          };
+          const table = document.querySelector("#users-table");
 
-                // Create a new row and add the data
-                const newRow = table.insertRow();
+          // Create a new row and add the data
+          const newRow = table.insertRow();
 
-                newRow.insertCell(0).textContent = newData.empId;
-                newRow.insertCell(1).textContent = newData.empName;
-                if (newData.scope) {
-                    newRow.insertCell(2).textContent = 'Admin';
-                }else {
-                    newRow.insertCell(2).textContent = 'User';
-                }
-                const dropButton = document.createElement('button');
-                dropButton.textContent = 'Drop User';
-                dropButton.onclick = function() {
-                   
-                        const empId = data[i].employee_id;
-                        const xhr = new XMLHttpRequest();
-                        const url = `http://127.0.0.1:5000/drop_user/${empId}`;
-                        console.log(url)
-                        xhr.open("DELETE", `http://127.0.0.1:5000/drop_user/${empId}`);
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                // Request was successful
-                                console.log("User dropped successfully");
-                                // Remove the row from the table
-                                const table = document.querySelector('#users-table');
-                                table.deleteRow(newRow.rowIndex);
-                            } else {
-                                // Request failed
-                                console.error("Error:", xhr.status);
-                            }
-                        };
-                        xhr.onerror = function() {
-                            console.error("Request failed");
-                        };
-                        xhr.send();
-                };
-                newRow.insertCell(3).appendChild(dropButton);
-            }
-        } else {
-            // Request failed
-            console.error("Error:", xhr.status);
+          newRow.insertCell(0).textContent = newData.empId;
+          newRow.insertCell(1).textContent = newData.empName;
+          if (newData.scope) {
+            newRow.insertCell(2).textContent = "Admin";
+          } else {
+            newRow.insertCell(2).textContent = "User";
+          }
+          const dropButton = document.createElement("button");
+          dropButton.textContent = "Drop User";
+          dropButton.onclick = function () {
+            const empId = data[i].employee_id;
+            const xhr = new XMLHttpRequest();
+            const url = `http://127.0.0.1:5000/drop_user/${empId}`;
+            console.log(url);
+            xhr.open("DELETE", `http://127.0.0.1:5000/drop_user/${empId}`);
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                // Request was successful
+                console.log("User dropped successfully");
+                // Remove the row from the table
+                const table = document.querySelector("#users-table");
+                table.deleteRow(newRow.rowIndex);
+              } else {
+                // Request failed
+                console.error("Error:", xhr.status);
+              }
+            };
+            xhr.onerror = function () {
+              console.error("Request failed");
+            };
+            xhr.send();
+          };
+          newRow.insertCell(3).appendChild(dropButton);
         }
+      } else {
+        // Request failed
+        console.error("Error:", xhr.status);
+      }
     };
 
     // Define the onerror function to handle errors
     xhr.onerror = function () {
-        console.error("Request failed");
+      console.error("Request failed");
     };
 
     // Send the request
     xhr.send();
+  });
 
-});
+document.getElementById("sent").addEventListener("click", (e) => {
+  // Define Role & ID
+  role = sessionStorage.role;
+  id = sessionStorage.id;
+  name = sessionStorage.name;
 
+  // Create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
 
-document.getElementById('sent').addEventListener("click", (e) => {
+  // Define the request URL
+  const url = `http://127.0.0.1:5000/sent?role=${role}&id=${id}&name=${name}`;
+  console.log(url);
 
-    // Define Role & ID
-    role = sessionStorage.role;
-    id = sessionStorage.id;
-    name = sessionStorage.name;
+  // Configure the request
+  xhr.open("GET", url);
 
-    // Create a new XMLHttpRequest object
-    const xhr = new XMLHttpRequest();
-    
-    // Define the request URL
-    const url = `http://127.0.0.1:5000/sent?role=${role}&id=${id}&name=${name}`;
-    console.log(url)
-
-    // Configure the request
-    xhr.open("GET", url);
-
-    // Define the onload function to handle the response
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            // Request was successful
-            const responseData = JSON.parse(xhr.responseText);
-            // Process the response data here
-            console.log(responseData);
-            main_content = document.querySelector('#main-content')
-            main_content.innerHTML = `
+  // Define the onload function to handle the response
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      // Request was successful
+      const responseData = JSON.parse(xhr.responseText);
+      // Process the response data here
+      console.log(responseData);
+      main_content = document.querySelector("#main-content");
+      main_content.innerHTML = `
             <table class="table" id="complaint-table">
             <tr>
                 <th>COMPLAINT ID</th>
@@ -328,69 +332,68 @@ document.getElementById('sent').addEventListener("click", (e) => {
                 <th>STATUS</th>
             </tr>
             <!-- Table rows can be added here as needed -->
-            </table>`
-            data = responseData['data']
-            console.log(responseData)
-            for (let i = 0; i < data.length; i++) {
-                const newData = {
-                    complaintId: data[i].id,
-                    empNo: data[i].employee_no,
-                    empName: data[i].employee_name,
-                    division: data[i].division_hq,
-                    department: data[i].department,
-                    website: data[i].website,
-                    module: data[i].module,
-                    desc: data[i].description,
-                    referenceDoc: data[i].referenceDoc,
-                    status: data[i].status,
-                    date: data[i].date
-                };
-                const table = document.querySelector('#complaint-table');
+            </table>`;
+      data = responseData["data"];
+      console.log(responseData);
+      for (let i = 0; i < data.length; i++) {
+        const newData = {
+          complaintId: data[i].id,
+          empNo: data[i].employee_no,
+          empName: data[i].employee_name,
+          division: data[i].division_hq,
+          department: data[i].department,
+          website: data[i].website,
+          module: data[i].module,
+          desc: data[i].description,
+          referenceDoc: data[i].referenceDoc,
+          status: data[i].status,
+          date: data[i].date,
+        };
+        const table = document.querySelector("#complaint-table");
 
-                // Create a new row and add the data
-                const newRow = table.insertRow();
+        // Create a new row and add the data
+        const newRow = table.insertRow();
 
-                // Add event listener to navigate to the complaint details of that page
-                newRow.addEventListener('click', () => {
-                    window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
-                });
-                newRow.style.cursor = 'pointer';
+        // Add event listener to navigate to the complaint details of that page
+        newRow.addEventListener("click", () => {
+          window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
+        });
+        newRow.style.cursor = "pointer";
 
-                newRow.insertCell(0).textContent = newData.complaintId;
-                newRow.insertCell(1).textContent = newData.date;
-                newRow.insertCell(2).textContent = newData.empNo;
-                newRow.insertCell(3).textContent = newData.empName;
-                newRow.insertCell(4).textContent = newData.division;
-                newRow.insertCell(5).textContent = newData.department;
-                newRow.insertCell(6).textContent = newData.website;
-                newRow.insertCell(7).textContent = newData.module;
-                newRow.insertCell(8).textContent = newData.desc;
-                // newRow.insertCell(9).textContent = newData.referenceDoc;
-                //updated the reference column to a hyperlink
-                const linkCell = newRow.insertCell(8);
-                const link = document.createElement('a');
-                link.href = newData.referenceDoc;
-                link.textContent = 'Document';
-                linkCell.appendChild(link);
-                newRow.insertCell(10).textContent = newData.status;
+        newRow.insertCell(0).textContent = newData.complaintId;
+        newRow.insertCell(1).textContent = newData.date;
+        newRow.insertCell(2).textContent = newData.empNo;
+        newRow.insertCell(3).textContent = newData.empName;
+        newRow.insertCell(4).textContent = newData.division;
+        newRow.insertCell(5).textContent = newData.department;
+        newRow.insertCell(6).textContent = newData.website;
+        newRow.insertCell(7).textContent = newData.module;
+        newRow.insertCell(8).textContent = newData.desc;
+        // newRow.insertCell(9).textContent = newData.referenceDoc;
+        //updated the reference column to a hyperlink
+        const linkCell = newRow.insertCell(8);
+        const link = document.createElement("a");
+        link.href = newData.referenceDoc;
+        link.textContent = "Document";
+        linkCell.appendChild(link);
+        newRow.insertCell(10).textContent = newData.status;
+      }
+    } else {
+      // Request failed
+      console.error("Error:", xhr.status);
+    }
+  };
 
-            }
-        } else {
-            // Request failed
-            console.error("Error:", xhr.status);
-        }
-    };
+  // Define the onerror function to handle errors
+  xhr.onerror = function () {
+    console.error("Request failed");
+  };
 
-    // Define the onerror function to handle errors
-    xhr.onerror = function () {
-        console.error("Request failed");
-    };
+  // Send the request
+  xhr.send();
 
-    // Send the request
-    xhr.send();
-
-    main_content = document.querySelector('#main-content')
-    main_content.innerHTML = `
+  main_content = document.querySelector("#main-content");
+  main_content.innerHTML = `
     <table class="table">
       <tr>
         <th>COMPLAINT ID</th>
@@ -402,10 +405,5 @@ document.getElementById('sent').addEventListener("click", (e) => {
         <th>DATE</th>
       </tr>
       <!-- Table rows can be added here as needed -->
-    </table>`
-
-
+    </table>`;
 });
-
-
-
