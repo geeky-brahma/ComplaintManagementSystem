@@ -1,27 +1,25 @@
 inbox.addEventListener("click", (e) => {
 
     // Define Role & ID
-    role = sessionStorage.role;
-    id = sessionStorage.id;
+    const role = sessionStorage.role;
+    const id = sessionStorage.id;
 
-    // Create a new XMLHttpRequest object
-    const xhr = new XMLHttpRequest();
-    
     // Define the request URL
     const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
     console.log(url)
 
-    // Configure the request
-    xhr.open("GET", url);
-
-    // Define the onload function to handle the response
-    xhr.onload = function () {
-        if (xhr.status === 200) {
+    // Send data using Fetch API
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(responseData => {
             // Request was successful
-            const responseData = JSON.parse(xhr.responseText);
-            // Process the response data here
             console.log(responseData);
-            main_content = document.querySelector('#main-content')
+            const main_content = document.querySelector('#main-content');
             main_content.innerHTML = `
             <table class="table" id="complaint-table">
             <tr>
@@ -38,22 +36,22 @@ inbox.addEventListener("click", (e) => {
                 <th>STATUS</th>
             </tr>
             <!-- Table rows can be added here as needed -->
-            </table>`
-            data = responseData['data']
-            console.log(responseData)
+            </table>`;
+
+            const data = responseData['data'];
             for (let i = 0; i < data.length; i++) {
                 const newData = {
-                    complaintId: data[i][0],
-                    empNo: data[i][1],
-                    empName: data[i][2],
-                    division: data[i][3],
-                    department: data[i][4],
-                    website: data[i][5],
-                    module: data[i][6],
-                    desc: data[i][7],
-                    referenceDoc: data[i][8],
-                    status: data[i][9],
-                    date: data[i][10]
+                    complaintId: data[i].id,
+                    empNo: data[i].employee_no,
+                    empName: data[i].employee_name,
+                    division: data[i].division_hq,
+                    department: data[i].department,
+                    website: data[i].website,
+                    module: data[i].module,
+                    desc: data[i].description,
+                    referenceDoc: data[i].referenceDoc,
+                    status: data[i].status,
+                    date: data[i].date
                 };
                 const table = document.querySelector('#complaint-table');
 
@@ -83,23 +81,14 @@ inbox.addEventListener("click", (e) => {
                 link.textContent = 'Click here';
                 linkCell.appendChild(link);
                 newRow.insertCell(10).textContent = newData.status;
-
             }
-        } else {
+        })
+        .catch(error => {
             // Request failed
-            console.error("Error:", xhr.status);
-        }
-    };
+            console.error('Error:', error);
+        });
 
-    // Define the onerror function to handle errors
-    xhr.onerror = function () {
-        console.error("Request failed");
-    };
-
-    // Send the request
-    xhr.send();
-
-    main_content = document.querySelector('#main-content')
+    const main_content = document.querySelector('#main-content');
     main_content.innerHTML = `
     <table class="table">
       <tr>
@@ -112,10 +101,9 @@ inbox.addEventListener("click", (e) => {
         <th>DATE</th>
       </tr>
       <!-- Table rows can be added here as needed -->
-    </table>`
-
-
+    </table>`;
 });
+
 const logOut = document.querySelector('.logout');
 
 logout.addEventListener('click', (e) => {
@@ -227,6 +215,7 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
                 <th>EMPLOYEE ID</th>
                 <th>EMPLOYEE NAME</th>
                 <th>SCOPE</th>
+                <th>DROP</th>
             </tr>
             <!-- Table rows can be added here as needed -->
             </table>`
@@ -234,9 +223,9 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
             console.log(responseData)
             for (let i = 0; i < data.length; i++) {
                 const newData = {
-                    empId: data[i][1],
-                    empName: data[i][2],
-                    scope: data[i][4],
+                    empId: data[i].employee_id,
+                    empName: data[i].employee_name,
+                    scope: data[i].scope,
                 };
                 const table = document.querySelector('#users-table');
 
@@ -250,6 +239,33 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
                 }else {
                     newRow.insertCell(2).textContent = 'User';
                 }
+                const dropButton = document.createElement('button');
+                dropButton.textContent = 'Drop User';
+                dropButton.onclick = function() {
+                   
+                        const empId = data[i].employee_id;
+                        const xhr = new XMLHttpRequest();
+                        const url = `http://127.0.0.1:5000/drop_user/${empId}`;
+                        console.log(url)
+                        xhr.open("DELETE", `http://127.0.0.1:5000/drop_user/${empId}`);
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                // Request was successful
+                                console.log("User dropped successfully");
+                                // Remove the row from the table
+                                const table = document.querySelector('#users-table');
+                                table.deleteRow(newRow.rowIndex);
+                            } else {
+                                // Request failed
+                                console.error("Error:", xhr.status);
+                            }
+                        };
+                        xhr.onerror = function() {
+                            console.error("Request failed");
+                        };
+                        xhr.send();
+                };
+                newRow.insertCell(3).appendChild(dropButton);
             }
         } else {
             // Request failed
@@ -314,17 +330,17 @@ document.getElementById('sent').addEventListener("click", (e) => {
             console.log(responseData)
             for (let i = 0; i < data.length; i++) {
                 const newData = {
-                    complaintId: data[i][0],
-                    empNo: data[i][1],
-                    empName: data[i][2],
-                    division: data[i][3],
-                    department: data[i][4],
-                    website: data[i][5],
-                    module: data[i][6],
-                    desc: data[i][7],
-                    referenceDoc: data[i][8],
-                    status: data[i][9],
-                    date: data[i][10]
+                    complaintId: data[i].id,
+                    empNo: data[i].employee_no,
+                    empName: data[i].employee_name,
+                    division: data[i].division_hq,
+                    department: data[i].department,
+                    website: data[i].website,
+                    module: data[i].module,
+                    desc: data[i].description,
+                    referenceDoc: data[i].referenceDoc,
+                    status: data[i].status,
+                    date: data[i].date
                 };
                 const table = document.querySelector('#complaint-table');
 

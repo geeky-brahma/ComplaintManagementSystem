@@ -1,19 +1,20 @@
 let ID = null;
+
 document.addEventListener('DOMContentLoaded', (e) => {
-    console.log("Hello WOrld!!")
+    console.log("Hello World!!");
     const urlParams = new URLSearchParams(window.location.search);
     ID = urlParams.get('complaint_id');
-    console.log(ID)
+    console.log(ID);
     let formData = {
         "IDType": 'id',
         "ID": ID
     };
     sendData(formData);
-})
+});
 
 const submitButton = document.querySelector('button[type="submit"]');
 submitButton.addEventListener('click', () => {
-    console.log('Submit Clicked !!')
+    console.log('Submit Clicked !!');
     const radioButtons = document.getElementsByName('action');
     let selectedValue;
     let formData;
@@ -30,13 +31,12 @@ submitButton.addEventListener('click', () => {
         }
     }
     if (selectedValue === 'close') {
-
         console.log("Textarea content:", textValue);
         formData = {
             id: ID,
             status: 'Closed',
             remarks: textValue
-        }
+        };
     }
     if (selectedValue === 'forward') {
         const dropdown = document.getElementById('forward-to');
@@ -44,152 +44,184 @@ submitButton.addEventListener('click', () => {
         console.log("Selected complaint type:", selectedText);
         formData = {
             id: ID,
-            forwarded_from: sessionStorage.name,
-            forwarded_to: selectedText,
+            forwardedFrom: sessionStorage.name,
+            forwardedTo: selectedText,
             remarks: textValue,
             date: `${day}/${month}/${year}`
-        }
-        console.log(formData)
+        };
+        console.log(formData);
     }
     console.log("Selected complaint type:", selectedValue);
-    closeForward(formData)
-})
+    closeForward(formData);
+});
 
-function closeForward(formData) {
-    // Create XMLHttpRequest object
-    let xhr = new XMLHttpRequest();
+async function sendData(formData) {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/complaint_details', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
 
-    // Callback function to handle response
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 201) {
-                console.log("Data sent successfully!");
-                // Handle successful response from server if needed
-                response_summary = JSON.parse(this.responseText)
-                // response_summary = this.responseText
-                console.log(response_summary)
-                data = response_summary['data']
-                set_status = document.getElementById('status')
-                set_status.innerHTML = `
-                <h2>${data}</h2>
-                `
-
-            } else {
-                console.error("Failed to send data. Status code: " + xhr.status);
-                // Handle error response from server if needed
-            }
+        if (!response.ok) {
+            throw new Error('Failed to send data.');
         }
-    };
 
-    // Open a POST request to the server
-    xhr.open("POST", "http://127.0.0.1:5000/close_forward");
+        const responseData = await response.json();
+        console.log('Data sent successfully!', responseData);
 
-    // Set request headers
-    xhr.setRequestHeader("Content-Type", "application/json");
+        const data = responseData.data[0];
+        displayComplaintDetails(data);
 
-    // Convert form data to JSON and send it to the server
-    xhr.send(JSON.stringify(formData));
+        const innerArray = responseData.data[1];
+        console.log(innerArray)
+        displayHistory(innerArray);
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error response from server if needed
+    }
 }
 
-function sendData(formData) {
-    // Create XMLHttpRequest object
-    let xhr = new XMLHttpRequest();
+async function closeForward(formData) {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/close_forward', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
 
-    // Callback function to handle response
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 201) {
-                console.log("Data sent successfully!");
-                // Handle successful response from server if needed
-                response_summary = JSON.parse(this.responseText)
-                // response_summary = this.responseText
-                console.log(response_summary)
-                data = response_summary['data'][0]
-                for (let i = 0; i < data.length; i++) {
-                    const newData = {
-                        complaintId: data[i][0],
-                        empNo: data[i][1],
-                        empName: data[i][2],
-                        division: data[i][3],
-                        department: data[i][4],
-                        website: data[i][5],
-                        module: data[i][6],
-                        desc: data[i][7],
-                        referenceDoc: data[i][8],
-                        status: data[i][9],
-                        date: data[i][10],
-                        currently_with: data[i][12],
-                        remarks: data[i][11]
-                    };
+        if (!response.ok) {
+            throw new Error('Failed to send data.');
+        }
 
-                    document.getElementById('complain-id').innerText = newData.complaintId;
-                    document.getElementById('complain-description').innerText = newData.desc;
-                    document.getElementById('website').innerText = newData.website;
-                    document.getElementById('module').innerText = newData.module;
-                    document.getElementById('div').innerText = newData.division;
-                    document.getElementById('employee-name').innerText = newData.empName;
-                    document.getElementById('employee-no').innerText = newData.empNo;
-                    document.getElementById('currently_with').innerText = newData.currently_with;
-                    // document.getElementById('remarks').innerText = newData.remarks;
-                    // document.getElementById('description').innerText = description;
-                    if (newData.referenceDoc) {
-                        const link = document.createElement('a');
-                        link.href = newData.referenceDoc;
-                        link.innerText = newData.referenceDoc;
-                        document.getElementById('reference-document').appendChild(link);
-                    } else {
-                        document.getElementById('reference-document').innerText = "No document available";
-                    }
-                    // document.getElementById('history').innerHTML = `<h4 style="color: red;">No History!!!</h4>`;
+        const responseData = await response.json();
+        console.log('Data sent successfully!', responseData);
 
-                }
-                const dataArray = response_summary.data;
-                const innerArray = dataArray[1]; 
-                console.log(innerArray);
-                if (innerArray[0]){    
-                    let html = ''
-                    history_place = document.getElementById('history')
-                    for (let i = 0; i < innerArray.length; i++) {
-                        const element = innerArray[i]
-                        console.log(element)
-                        html+=`
-                            <div style='border: 1px solid #ddd; padding: 20px;'>
-                                <div>Complaint Id: ${element[1]}</div>
-                                <div>From: ${element[2]}</div>
-                                <div>To: ${element[3]}</div>
-                                <div>Remarks: ${element[4]}</div>
-                                <div>Date: ${element[5]}</div>
-                            </div>
-                        `
-                        // const node = document.createElement("div");
-                        // const textnode = document.createTextNode(`${element}`);
-                        // node.appendChild(textnode);
-                        // history_place.appendChild(node)
+        // Handle response data if needed
+        const data = responseData.data;
+        document.getElementById('status').innerHTML = `<h2>${data}</h2>`;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error response from server if needed
+    }
+}
 
-                    }
-                    history_place.innerHTML = html
-                }
-                else{
-                    document.getElementById('history').innerHTML = `<h4 style="color: red;">No History!!!</h4>`;
-                }
+function displayComplaintDetails(data) {
+    // console.log(data)
+    data = data[0]
+    const newData = {
+        complaintId: data.id,
+        empNo: data.employee_no,
+        empName: data.employee_name,
+        division: data.division_hq,
+        department: data.department,
+        website: data.website,
+        module: data.module,
+        desc: data.description,
+        // referenceDoc: data.referenceDoc,
+        referenceDoc: data.reference,
+        status: data.status,
+        date: data.date,
+        currently_with: data.currently_with
+
+        // complaintId: data.id,
+        // empNo: data[1],
+        // empName: data[2],
+        // division: data[3],
+        // department: data[4],
+        // website: data[5],
+        // module: data[6],
+        // desc: data[7],
+        // referenceDoc: data[8],
+        // status: data[9],
+        // date: data[10],
+        // currently_with: data[12],
+        // remarks: data[11]
+    };
+
+    document.getElementById('complain-id').innerText = newData.complaintId;
+    document.getElementById('complain-description').innerText = newData.desc;
+    document.getElementById('website').innerText = newData.website;
+    document.getElementById('module').innerText = newData.module;
+    document.getElementById('div').innerText = newData.division;
+    document.getElementById('employee-name').innerText = newData.empName;
+    document.getElementById('employee-no').innerText = newData.empNo;
+    document.getElementById('currently_with').innerText = newData.currently_with;
+
+
+
+
+    const referenceDocElement = document.getElementById('reference-document');
+    if (newData.referenceDoc) {
+        const link = document.createElement('a');
+        // link.href = newData.referenceDoc;
+        // link.href = downloadFile(newData.complaintId);
+        link.innerText = 'Click here';
+        link.style.cursor='pointer'
+        link.style.color='blue'
+        link.style.textDecoration='underline'
+        referenceDocElement.innerHTML = '';
+        referenceDocElement.appendChild(link);
+        // Add event listener to the link element
+        link.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default behavior
+            downloadFile(newData.complaintId)
                 
+        });
 
+        async function downloadFile(id) {
+            try {
+                const response = await fetch(`http://localhost:5000/download?id=${id}`);
+                if (!response.ok) {
+                    throw new Error('File download failed');
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
 
-            } else {
-                console.error("Failed to send data. Status code: " + xhr.status);
-                // Handle error response from server if needed
+                // Create a link element to trigger the download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = id;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (error) {
+                console.error('Error downloading file:', error);
+                // Handle error
             }
         }
-    };
-
-    // Open a POST request to the server
-    xhr.open("POST", "http://127.0.0.1:5000/complaint_details");
-
-    // Set request headers
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    // Convert form data to JSON and send it to the server
-    xhr.send(JSON.stringify(formData));
+    } else {
+        referenceDocElement.innerText = 'No document available';
+    }
 }
+
+function displayHistory(innerArray) {
+    const historyPlace = document.getElementById('history');
+
+    if (innerArray && innerArray.length > 0) {
+        let html = '';
+        for (const element of innerArray) {
+            console.log(element)
+            html += `
+                <div style='border: 1px solid #ddd; padding: 20px;'>
+                    <div>Complaint Id: ${element.complaint_id}</div>
+                    <div>From: ${element.fwd_from}</div>
+                    <div>To: ${element.fwd_to}</div>
+                    <div>Remarks: ${element.remarks}</div>
+                    <div>Date: ${element.date}</div>
+                </div>
+            `;
+        }
+        historyPlace.innerHTML = html;
+    } else {
+        historyPlace.innerHTML = `<h4 style="color: red;">No History!!!</h4>`;
+    }
+}
+
+
 
 

@@ -3,80 +3,82 @@ goButton.addEventListener('click', (e) => {
     e.preventDefault();
     const IDType = document.querySelector('input[name="status-by"]:checked').value;
     const ID = document.querySelector('#input-field').value;
-    console.log(IDType, ID)
     let formData = {
         "IDType": IDType,
-        "ID": ID 
+        "ID": ID
     };
     sendData(formData);
-})
+});
 
 function sendData(formData) {
-    // Create XMLHttpRequest object
     let xhr = new XMLHttpRequest();
 
-    // Callback function to handle response
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 201) {
-                console.log("Data sent successfully!");
-                // Handle successful response from server if needed
-                response_summary = JSON.parse(this.responseText)
-                // response_summary = this.responseText
-                console.log(response_summary)
-                data = response_summary['data']
-                for (let i = 0; i < data.length; i++){
-                    const newData = {
-                        complaintId: data[i][0],
-                        empNo: data[i][1],
-                        empName: data[i][2],
-                        division: data[i][3],
-                        department: data[i][4],
-                        website: data[i][5],
-                        module: data[i][6],
-                        desc: data[i][7],
-                        referenceDoc: data[i][8],
-                        status: data[i][9],
-                        date: data[i][10]
-                    };
-                    const table = document.querySelector('#complaint-table');
-      
-                    // Create a new row and add the data
-                    const newRow = table.insertRow();
-                    newRow.insertCell(0).textContent = newData.complaintId;
-                    newRow.insertCell(1).textContent = newData.date;
-                    newRow.insertCell(2).textContent = newData.empNo;
-                    newRow.insertCell(3).textContent = newData.empName;
-                    newRow.insertCell(4).textContent = newData.division;
-                    newRow.insertCell(5).textContent = newData.department;
-                    newRow.insertCell(6).textContent = newData.website;
-                    newRow.insertCell(7).textContent = newData.module;
-                    newRow.insertCell(8).textContent = newData.desc;
-                    // newRow.insertCell(9).textContent = newData.referenceDoc;
-                    const linkCell = newRow.insertCell(9);
-                    const link = document.createElement('a');
-                    link.href = newData.referenceDoc;
-                    link.textContent = 'Click here';
-                    linkCell.appendChild(link);
-                    newRow.insertCell(10).textContent = newData.status;
-                }
-                
+            if (xhr.status === 200) { // Assuming your server responds with 200 OK
+                console.log("Data received successfully!");
+                const response_summary = JSON.parse(this.responseText);
+                const data = response_summary['data'];
+                updateTable(data);
             } else {
-                console.error("Failed to send data. Status code: " + xhr.status);
+                console.error("Failed to fetch data. Status code: " + xhr.status);
                 // Handle error response from server if needed
             }
         }
     };
 
-    // Open a POST request to the server
     xhr.open("POST", "http://127.0.0.1:5000/status");
-
-    // Set request headers
     xhr.setRequestHeader("Content-Type", "application/json");
-
-    // Convert form data to JSON and send it to the server
     xhr.send(JSON.stringify(formData));
 }
 
+function updateTable(data) {
+    const table = document.querySelector('#complaint-table');
+    // table.innerHTML = ''; // Clear existing table content
 
-  
+    if (!Array.isArray(data)) {
+        console.error('Data received is not an array:', data);
+        return;
+    }
+
+    data.forEach(entry => {
+        if (!Array.isArray(entry)) {
+            console.error('Invalid entry format:', entry);
+            // return;
+        }
+
+        // const [complaintId, date, empNo, empName, division, department, website, module, desc, referenceDoc, status] = entry;
+        complaintId = entry.id
+        complaintId= entry.id
+        empNo= entry.employee_no
+        empName= entry.employee_name
+        division= entry.division_hq
+        department= entry.department
+        website= entry.website
+        module= entry.module
+        desc= entry.description
+        referenceDoc= entry.referenceDoc
+        status= entry.status
+        date= entry.date
+
+        const newRow = table.insertRow();
+        newRow.insertCell(0).textContent = complaintId;
+        newRow.insertCell(1).textContent = date;
+        newRow.insertCell(2).textContent = empNo;
+        newRow.insertCell(3).textContent = empName;
+        newRow.insertCell(4).textContent = division;
+        newRow.insertCell(5).textContent = department;
+        newRow.insertCell(6).textContent = website;
+        newRow.insertCell(7).textContent = module;
+        newRow.insertCell(8).textContent = desc;
+
+        const linkCell = newRow.insertCell(9);
+        const link = document.createElement('a');
+        link.href = referenceDoc;
+        link.textContent = 'Click here';
+        linkCell.appendChild(link);
+
+        newRow.insertCell(10).textContent = status;
+    });
+}
+

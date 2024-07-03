@@ -1,70 +1,51 @@
-// RAISE_NEW_COMPLAINT
-let submitButton = document.querySelector('button[type="submit"]');
-submitButton.addEventListener('click', (e) => {
+
+document.getElementById('complaintForm').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1; // Months are zero-indexed
     const day = now.getDate();
-    // Gather form data
-    let formData = {
 
-        employeeNo: document.querySelector("#employee-no").value,
-        employeeName: document.querySelector("#employee-name").value,
-        divisionHQ: document.querySelector("#division-hq").value,
-        department: document.querySelector("#department").value,
-        website: document.querySelector("#website").value,
-        module: document.querySelector("#module").value,
-        description: document.querySelector("#description").value,
-        reference: document.querySelector("#reference").value, // If needed
-        date: `${day}/${month}/${year}`,
-        status: "Under Process",
-        currently_with: 'admin'
-    };
-    
-    if (formData.employeeNo && formData.employeeName && formData.description) {
-        // Send form data to the server
-        sendData(formData);
-    }
-    else {
-        compID = document.querySelector("#compID")
-        compID.innerHTML = `<h2>Fill in the details correctly</h2>`
-    }
+    // Create FormData object
+    let formData = new FormData();
+    formData.append('employeeNo', document.querySelector("#employee-no").value);
+    formData.append('employeeName', document.querySelector("#employee-name").value);
+    formData.append('divisionHQ', document.querySelector("#division-hq").value);
+    formData.append('department', document.querySelector("#department").value);
+    formData.append('website', document.querySelector("#website").value);
+    formData.append('module', document.querySelector("#module").value);
+    formData.append('description', document.querySelector("#description").value);
+    formData.append('date', `${day}-${month}-${year}`);
+    formData.append('status', "Under Process");
+    formData.append('currentlyWith', 'admin');
+    // const fileInput = document.querySelector("#reference");
+    // const file = fileInput.files[0];
+    // const formData = new FormData();
+    // formData.append(`${document.querySelector("#employee-no").value}-${day}-${month}-${year}`, file);
+    formData.append('reference', document.querySelector("#reference").files[0]); // Add the file
 
-});
+    try {
+        // Send form data to the server using Fetch API
+        const response = await fetch('http://127.0.0.1:5000/data', {
+            method: 'POST',
+            body: formData,
+        });
 
-function sendData(formData) {
-    // Create XMLHttpRequest object
-    let xhr = new XMLHttpRequest();
-
-    // Callback function to handle response
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 201) {
-                console.log("Data sent successfully!");
-                // Handle successful response from server if needed
-                response_summary = JSON.parse(this.responseText)
-                // response_summary = this.responseText
-                console.log(response_summary)
-                compID = document.querySelector("#compID")
-                compID.innerHTML = `<h2>Complaint ID Generated: ${response_summary['Complaint ID']}</h2>`
-            } else {
-                console.error("Failed to send data. Status code: " + xhr.status);
-                // Handle error response from server if needed
-            }
+        if (!response.ok) {
+            throw new Error('Failed to send data.');
         }
-    };
 
-    // Open a POST request to the server
-    xhr.open("POST", "http://127.0.0.1:5000/data");
-
-    // Set request headers
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    // Convert form data to JSON and send it to the server
-    xhr.send(JSON.stringify(formData));
-}
-
-
-
-
+        const responseData = await response.json();
+        console.log('Data sent successfully!', responseData);
+        window.onbeforeunload = function () {
+            return ""
+        }
+        // Display the generated Complaint ID
+        document.getElementById('compID').innerHTML = `<h2>Complaint ID Generated: ${responseData['complaintId']}</h2>`;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error response from server if needed
+        document.getElementById('compID').innerHTML = `<h2>Error: Failed to send data</h2>`;
+    }
+});
