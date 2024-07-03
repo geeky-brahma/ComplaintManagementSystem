@@ -66,4 +66,23 @@ module.exports = {
         res.status(500).json({ error: 'Internal server error', details: error.message });
       });
   },
+
+  
+  dropUser: (req,res) => {
+    const { empId } = req.params;
+    const query = 'DELETE FROM users WHERE employee_id = $1';
+    const values = [empId];
+    db.query(query, values)
+      .then(() => {
+        res.status(200).json({
+          data: `User Deleted: ${empId}`,
+        }
+      )
+      console.log('User Deleted', values);
+      })
+      .catch((error) => {
+        console.error('Error deleting data:', error.message);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+      });
+  }
 };

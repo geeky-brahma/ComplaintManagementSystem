@@ -215,6 +215,7 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
                 <th>EMPLOYEE ID</th>
                 <th>EMPLOYEE NAME</th>
                 <th>SCOPE</th>
+                <th>DROP</th>
             </tr>
             <!-- Table rows can be added here as needed -->
             </table>`
@@ -238,6 +239,33 @@ document.getElementById('activate_deactivate_user').addEventListener('click', (e
                 }else {
                     newRow.insertCell(2).textContent = 'User';
                 }
+                const dropButton = document.createElement('button');
+                dropButton.textContent = 'Drop User';
+                dropButton.onclick = function() {
+                   
+                        const empId = data[i].employee_id;
+                        const xhr = new XMLHttpRequest();
+                        const url = `http://127.0.0.1:5000/drop_user/${empId}`;
+                        console.log(url)
+                        xhr.open("DELETE", `http://127.0.0.1:5000/drop_user/${empId}`);
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                // Request was successful
+                                console.log("User dropped successfully");
+                                // Remove the row from the table
+                                const table = document.querySelector('#users-table');
+                                table.deleteRow(newRow.rowIndex);
+                            } else {
+                                // Request failed
+                                console.error("Error:", xhr.status);
+                            }
+                        };
+                        xhr.onerror = function() {
+                            console.error("Request failed");
+                        };
+                        xhr.send();
+                };
+                newRow.insertCell(3).appendChild(dropButton);
             }
         } else {
             // Request failed

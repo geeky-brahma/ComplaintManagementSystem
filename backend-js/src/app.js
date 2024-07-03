@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Import cors package
 const complaintsController = require('./controllers/complaintsController');
 const usersController = require('./controllers/usersController');
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -24,9 +23,15 @@ app.get('/all_users', usersController.allUsers);
 app.post('/login_users', usersController.loginUsers);
 app.post('/register_users', usersController.registerUsers);
 
+app.delete('/drop_user/:empId', usersController.dropUser);
+// employee id has to be unique check
 app.get('/download', complaintsController.referenceDoc);
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Complaint Management System API');
+});
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}/`);
 });
