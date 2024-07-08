@@ -53,8 +53,15 @@ body {
 
 .user-menu {
     position: absolute;
-    top: 20px;
+    top: 25px;
     right: 20px;
+    display: flex;
+    align-items: center;
+}
+.home {
+    position: absolute;
+    top: 34px;
+    left: 20px;
     display: flex;
     align-items: center;
 }
@@ -67,6 +74,13 @@ body {
     height: 60px;
     cursor: pointer;
     background: #f7f7f7;
+}
+.home img {
+    /* border-radius: 50%; */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    /* background: #f7f7f7; */
 }
 .dropdown {
     position: relative;
@@ -242,6 +256,8 @@ table {
 .complaint-details-single table th, table td{
     width: max-content;
     min-width: 120px;
+    max-inline-size: 314px;
+    overflow-wrap: break-word;
 }
 table th, table td {
     border: 1px solid #ddd;
