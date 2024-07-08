@@ -18,6 +18,7 @@ app.post('/close_forward', complaintsController.closeForward);
 app.post('/complaint_details', complaintsController.complaintDetails);
 app.get('/sent', complaintsController.sent);
 app.get('/department', complaintsController.department);
+app.get('/report', complaintsController.report);
 
 app.get('/all_users', usersController.allUsers);
 app.post('/login_users', usersController.loginUsers);

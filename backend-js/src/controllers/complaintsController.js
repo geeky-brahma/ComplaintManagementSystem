@@ -3,6 +3,7 @@
 const db = require('../db/db');
 const multer = require('multer');
 const path = require('path');
+const { report } = require('process');
 
 const UPLOAD_FOLDER = path.join(__dirname, '../../uploads');
 const MAX_FILE_SIZE = 16 * 1024 * 1024; // 16 MB
@@ -44,7 +45,7 @@ module.exports = {
         return res.status(400).json({ error: err.message });
       }
 
-      const {
+      let {
         employeeNo,
         employeeName,
         divisionHQ,
@@ -58,7 +59,7 @@ module.exports = {
       } = req.body;
 
       const reference = req.file ? req.file.filename : null;
-
+      date = new Date(date).toISOString().split('T')[0];
       const sql = `
         INSERT INTO complaints 
           (employee_no, employee_name, division_hq, department, website, module, description, reference, status, date, currently_with)
@@ -279,5 +280,38 @@ module.exports = {
         console.error('Error fetching data:', error); // Logging the error to console
         res.status(500).json({ error: 'Internal server error' });
       })
-  }
+  },
+
+  report: (req, res) => {
+    let { startDate, endDate, status } = req.query;
+    startDate = new Date(startDate).toISOString().split('T')[0];
+    endDate = new Date(endDate).toISOString().split('T')[0];
+    let query = `
+      SELECT *, count(*) as total_complaints, sum(case when status = 'Closed' then 1 else 0 end) as closed_complaints, sum(case when status = 'Under Process' then 1 else 0 end) as under_process_complaints
+      FROM complaints 
+      WHERE date >= $1 AND date <= $2`;
+    
+    const values = [startDate, endDate];
+
+    if (status) {
+      query += ` AND status = $3`;
+      values.push(status);
+    }
+
+    query += `
+      GROUP BY id
+      ORDER BY date DESC`;
+    // const values = [startDate, endDate, status];
+
+    db.query(query, values)
+      .then((result) => {
+        const records = result.rows;
+        console.log(records)
+        res.status(200).json({ data: records });
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      });
+  },
 };
