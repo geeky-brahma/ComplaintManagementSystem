@@ -11,6 +11,11 @@
 <body>
   <div class="header">
     <h1>Complaint Management System</h1>
+    <div class="home">
+      <a href="ADMIN.html">
+        <img src="home.png" alt="Profile Image"/>
+      </a>
+    </div>
     <div class="user-menu">
       <div class="dropdown">
         <img src="ecor.png" alt="Profile Image" class="dropbtn">
@@ -32,9 +37,9 @@
       <a href="ADMIN.html" class="sidebar-item">Reports</a>
     </div>
     <div class="main-content" id="main-content">
-      <div class="form-container">
+      <div class="form-container" style="overflow: scroll;">
         <h2>Complaint Details</h2>
-        <div class="complaint-details-single" style="display: flex; justify-content: space-evenly;">
+        <div class="complaint-details-single" style="display: flex; justify-content: left;">
           <div>
             <table>
               <tr>
@@ -108,7 +113,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div style="padding: 0 15px;">
             <h3>Transaction History</h3>
             <div id="history">
               <h4 style="color: red;">No History!!!</h4>
