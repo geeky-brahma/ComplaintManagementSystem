@@ -557,77 +557,113 @@ document.getElementById('all_complaints').addEventListener("click", (e) => {
 
 document.getElementById("reports").addEventListener("click", (e) => {
     const main_content = document.querySelector("#main-content");
-    main_content.innerHTML = `<div class="form-container" style="overflow: scroll;">
-        <h2>Complaints Report Page</h2>
-        <div class="complaint-details-single" style="display: flex; justify-content: left;">
+    main_content.innerHTML = `<h2>Complaints Report Page</h2>
+    <div class="complaint-details-single" style="display: flex; flex-direction: column; justify-content: left;">
 
-
-          <form id="complaintForm" style="padding: 10px">
-            <div class="form-group" style="margin-top: 0%;">
-              <label for="start-date">Start Date:</label>
-              <input type="date" id="start-date">
-            </div>
-            <div class="form-group">
-              <label for="end-date">End Date:</label>
-              <input type="date" id="end-date">
-            </div>
-            <div class="form-group">
-              <label for="status">Status:</label>
-                <select id="status">
-                  <option value="pending">Pending</option>
-                  <option value="unprocessed">Unprocessed</option>
-                  <option value="closed">Closed</option>
-                </select>
-            </div>
-            <button class="submit-button" onclick="fetchComplaints()">Filter</button>
-          </form>
-          <div style="padding=10px">
-          <table class="table" id="complaint-table">
-            <tr>
-                <th>COMPLAINT ID</th>
-                <th>DATE</th>
-                <th>EMPLOYEE NO</th>
-                <th>EMPLOYEE NAME</th>
-                <th>DIVISION</th>
-                <th>DEPARTMENT</th>
-                <th>WEBSITE</th>
-                <th>MODULE</th>
-                <th>DESC</th>
-                <th>STATUS</th>
-            </tr>
-            <!-- Table rows can be added here as needed -->
-            </table>
-          </div>
+        <div>
+            <form id="complaintForm" style="padding: 10px">
+                <div class="form-group" style="margin-top: 0%;">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date">
+                </div>
+                <div class="form-group">
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status">
+                        <option value="">All</option>
+                        <option value="Under Process">Under Process</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+                <button class="submit-button" id="filter">Filter</button>
+            </form>
         </div>
+        <div style="padding:10px">
+            <table class="table" id="complaint-table">
+                <thead>
+                    <tr>
+                        <th>COMPLAINT ID</th>
+                        <th>DATE</th>
+                        <th>DIVISION</th>
+                        <th>DEPARTMENT</th>
+                        <th>WEBSITE</th>
+                        <th>MODULE</th>
+                        <th>DESC</th>
+                    </tr>
+                </thead>
+                <!-- Table rows can be added here as needed -->
+                <tbody id='tbody'>
+                    <tr>
+                        <td colspan="7" id="no-data">No complaints to display</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id='message'></div>
+        </div>
+    </div>`
+    document.getElementById('filter').addEventListener('click', fetchComplaints);
+    async function fetchComplaints(e) {
+        e.preventDefault();
+        let startDate = document.getElementById('start-date').value;
+        startDate = formatDate(startDate);
+        // console.log(startDate)
+        let endDate = document.getElementById('end-date').value;
+        endDate = formatDate(endDate);
+        // console.log(endDate)
 
-        
-      </div>`
-    async function fetchComplaints() {
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
+        function formatDate(date) {
+            const [year, month, day] = date.split('-');
+            return `${day}-${month}-${year}`;
+        }
         const status = document.getElementById('status').value;
+        // console.log(status)
+        const message = document.getElementById('message');
         
         try {
-            const response = await fetch(`/api/complaints?startDate=${startDate}&endDate=${endDate}&status=${status}`);
-            const complaints = await response.json();
-            const tableBody = document.querySelector('#complaints-table tbody');
+            const response = await fetch(`http://127.0.0.1:5000/report?startDate=${startDate}&endDate=${endDate}&status=${status}`);
+            let complaints = await response.json();
+            complaints = complaints.data;
+            // console.log(complaints);
+            // const tableBody = document.querySelector('#complaints-table tbody');
+            const tableBody = document.querySelector('#tbody');
             const noData = document.getElementById('no-data');
-            tableBody.innerHTML = '';
+            let total_complaints = 0;
+            let closed_complaints = 0;
+            let under_process_complaints = 0;
 
             if (complaints.length > 0) {
-                noData.style.display = 'none';
+                tableBody.innerHTML = '';
+                // console.log(complaints.length)
+                if (noData) noData.style.display = 'none'; 
+                // noData.style.display = 'none';
                 complaints.forEach(complaint => {
+                    // console.log(complaint)
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${complaint.complaint_id}</td>
-                        <td>${complaint.division}</td>
+                        <td>${complaint.id}</td>
+                        <td>${complaint.date}</td>
+                        <td>${complaint.division_hq}</td>
                         <td>${complaint.department}</td>
                         <td>${complaint.website}</td>
                         <td>${complaint.module}</td>
                         <td>${complaint.description}</td>
                     `;
                     tableBody.appendChild(row);
+                    // message.innerHTML = '';
+                    total_complaints++;
+                    if (complaint.status === 'Closed') closed_complaints++;
+                    if (complaint.status === 'Under Process') under_process_complaints++;
+                    
+
                 });
+                message.innerHTML = `
+                        <h3>Total Complaints: ${total_complaints}</h3>
+                        <h3>Total Closed: ${closed_complaints++}</h3>
+                        <h3>Total Under Process: ${under_process_complaints++}</h3>
+                    `;
             } else {
                 noData.style.display = 'block';
             }
