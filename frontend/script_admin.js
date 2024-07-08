@@ -557,40 +557,51 @@ document.getElementById('all_complaints').addEventListener("click", (e) => {
 
 document.getElementById("reports").addEventListener("click", (e) => {
     const main_content = document.querySelector("#main-content");
-    main_content.innerHTML = `<div class="container">
-        <h1>Complaints Report Page</h1>
-        <div class="filters">
-            <label for="start-date">Start Date:</label>
-            <input type="date" id="start-date">
-            
-            <label for="end-date">End Date:</label>
-            <input type="date" id="end-date">
-            
-            <label for="status">Status:</label>
-            <select id="status">
-                <option value="pending">Pending</option>
-                <option value="unprocessed">Unprocessed</option>
-                <option value="closed">Closed</option>
-            </select>
-            
-            <button onclick="fetchComplaints()">Filter</button>
+    main_content.innerHTML = `<div class="form-container" style="overflow: scroll;">
+        <h2>Complaints Report Page</h2>
+        <div class="complaint-details-single" style="display: flex; justify-content: left;">
+
+
+          <form id="complaintForm" style="padding: 10px">
+            <div class="form-group" style="margin-top: 0%;">
+              <label for="start-date">Start Date:</label>
+              <input type="date" id="start-date">
+            </div>
+            <div class="form-group">
+              <label for="end-date">End Date:</label>
+              <input type="date" id="end-date">
+            </div>
+            <div class="form-group">
+              <label for="status">Status:</label>
+                <select id="status">
+                  <option value="pending">Pending</option>
+                  <option value="unprocessed">Unprocessed</option>
+                  <option value="closed">Closed</option>
+                </select>
+            </div>
+            <button class="submit-button" onclick="fetchComplaints()">Filter</button>
+          </form>
+          <div style="padding=10px">
+          <table class="table" id="complaint-table">
+            <tr>
+                <th>COMPLAINT ID</th>
+                <th>DATE</th>
+                <th>EMPLOYEE NO</th>
+                <th>EMPLOYEE NAME</th>
+                <th>DIVISION</th>
+                <th>DEPARTMENT</th>
+                <th>WEBSITE</th>
+                <th>MODULE</th>
+                <th>DESC</th>
+                <th>STATUS</th>
+            </tr>
+            <!-- Table rows can be added here as needed -->
+            </table>
+          </div>
         </div>
-        <table id="complaints-table">
-            <thead>
-                <tr>
-                    <th>Complaint ID</th>
-                    <th>Division</th>
-                    <th>Department</th>
-                    <th>Website</th>
-                    <th>Module</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Complaints data will be inserted here -->
-            </tbody>
-        </table>
-        <div id="no-data">No complaints to display</div>`
+
+        
+      </div>`
     async function fetchComplaints() {
         const startDate = document.getElementById('start-date').value;
         const endDate = document.getElementById('end-date').value;
