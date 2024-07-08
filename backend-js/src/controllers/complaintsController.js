@@ -97,7 +97,20 @@ module.exports = {
   },
 
   department: (req, res) => {
-    
+    query = `
+    SELECT * FROM DEPARTMENT
+    `
+    params=''
+    db.query(query, params)  // Pass correct params array based on query
+      .then((result) => {
+        const records = result.rows;
+        // console.log(records)
+        res.status(200).json({ data: records });
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error); // Logging the error to console
+        res.status(500).json({ error: 'Internal server error' });
+      });
   },
 
   status: (req, res) => {
