@@ -554,3 +554,76 @@ document.getElementById('all_complaints').addEventListener("click", (e) => {
         `
     }
 });
+
+document.getElementById("reports").addEventListener("click", (e) => {
+    const main_content = document.querySelector("#main-content");
+    main_content.innerHTML = `<div class="container">
+        <h1>Complaints Report Page</h1>
+        <div class="filters">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+            
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+            
+            <label for="status">Status:</label>
+            <select id="status">
+                <option value="pending">Pending</option>
+                <option value="unprocessed">Unprocessed</option>
+                <option value="closed">Closed</option>
+            </select>
+            
+            <button onclick="fetchComplaints()">Filter</button>
+        </div>
+        <table id="complaints-table">
+            <thead>
+                <tr>
+                    <th>Complaint ID</th>
+                    <th>Division</th>
+                    <th>Department</th>
+                    <th>Website</th>
+                    <th>Module</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Complaints data will be inserted here -->
+            </tbody>
+        </table>
+        <div id="no-data">No complaints to display</div>`
+    async function fetchComplaints() {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const status = document.getElementById('status').value;
+        
+        try {
+            const response = await fetch(`/api/complaints?startDate=${startDate}&endDate=${endDate}&status=${status}`);
+            const complaints = await response.json();
+            const tableBody = document.querySelector('#complaints-table tbody');
+            const noData = document.getElementById('no-data');
+            tableBody.innerHTML = '';
+
+            if (complaints.length > 0) {
+                noData.style.display = 'none';
+                complaints.forEach(complaint => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${complaint.complaint_id}</td>
+                        <td>${complaint.division}</td>
+                        <td>${complaint.department}</td>
+                        <td>${complaint.website}</td>
+                        <td>${complaint.module}</td>
+                        <td>${complaint.description}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                noData.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error fetching complaints:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchComplaints);
+})
