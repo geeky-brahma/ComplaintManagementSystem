@@ -34,7 +34,21 @@ function sendData(formData) {
 
 function updateTable(data) {
     const table = document.querySelector('#complaint-table');
-    // table.innerHTML = ''; // Clear existing table content
+    table.innerHTML = `<table class="complaint-details" id="complaint-table">
+                            <tr>
+                            <th>Complaint Id</th>
+                            <th>Date</th>
+                            <th>Emp No</th>
+                            <th>Emp Name</th>
+                            <th>Division</th>
+                            <th>Department</th>
+                            <th>Website</th>
+                            <th>Module</th>
+                            <th>Desc</th>
+                            <!-- <th>Reference Document</th> -->
+                            <th>Status</th>
+                            </tr>
+                        </table>`; // Clear existing table content
 
     if (!Array.isArray(data)) {
         console.error('Data received is not an array:', data);

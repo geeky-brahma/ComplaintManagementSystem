@@ -1,5 +1,7 @@
 let ID = null;
-
+let currently_with;
+let name = sessionStorage.name
+console.log(name)
 document.addEventListener('DOMContentLoaded', (e) => {
     console.log("Hello World!!");
     const urlParams = new URLSearchParams(window.location.search);
@@ -10,7 +12,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
         "ID": ID
     };
     sendData(formData);
+    fetchAllUsers();
+    // disableCloseForward();
+
 });
+
+const forwardRadio = document.getElementById("forward");
+const actionContent = document.getElementById("action-content");
+forwardRadio.addEventListener("change", function () {
+    if (forwardRadio.checked) {
+        actionContent.innerHTML = '<label for="forward-to">Forward to:</label><select id="forward-to"><option value="user1">User1</option><option value="user2">User2</option><option value="user3">User3</option><option value="user4">User4</option></select>';
+        fetchAllUsers()
+    }
+});
+
 
 const submitButton = document.querySelector('button[type="submit"]');
 submitButton.addEventListener('click', () => {
@@ -104,6 +119,10 @@ async function closeForward(formData) {
         // Handle response data if needed
         const data = responseData.data;
         document.getElementById('status').innerHTML = `<h2>${data}</h2>`;
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+        
     } catch (error) {
         console.error('Error:', error);
         // Handle error response from server if needed
@@ -128,6 +147,7 @@ function displayComplaintDetails(data) {
         date: data.date,
         currently_with: data.currently_with
 
+
         // complaintId: data.id,
         // empNo: data[1],
         // empName: data[2],
@@ -142,6 +162,9 @@ function displayComplaintDetails(data) {
         // currently_with: data[12],
         // remarks: data[11]
     };
+    // console.log(currently_with)
+    currently_with = newData.currently_with;
+    // console.log(currently_with)
 
     document.getElementById('complain-id').innerText = newData.complaintId;
     document.getElementById('complain-description').innerText = newData.desc;
@@ -161,16 +184,16 @@ function displayComplaintDetails(data) {
         // link.href = newData.referenceDoc;
         // link.href = downloadFile(newData.complaintId);
         link.innerText = 'Click here';
-        link.style.cursor='pointer'
-        link.style.color='blue'
-        link.style.textDecoration='underline'
+        link.style.cursor = 'pointer'
+        link.style.color = 'blue'
+        link.style.textDecoration = 'underline'
         referenceDocElement.innerHTML = '';
         referenceDocElement.appendChild(link);
         // Add event listener to the link element
         link.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent the default behavior
             downloadFile(newData.complaintId)
-                
+
         });
 
         async function downloadFile(id) {
@@ -194,6 +217,7 @@ function displayComplaintDetails(data) {
                 // Handle error
             }
         }
+        disableCloseForward();
     } else {
         referenceDocElement.innerText = 'No document available';
     }
@@ -223,5 +247,55 @@ function displayHistory(innerArray) {
 }
 
 
+async function fetchAllUsers() {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/all_users', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch users.');
+        }
+
+        const responseData = await response.json();
+        console.log('Fetched users successfully!', responseData);
+        populateUserDropdown(responseData.data);
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error response from server if needed
+    }
+}
+
+function populateUserDropdown(users) {
+    const dropdown = document.getElementById('forward-to');
+    dropdown.innerHTML = ''; // Clear any existing options
+    users.forEach(user => {
+        if (user.employee_name !== sessionStorage.name && user.employee_name !== sessionStorage.currently_with) { // Skip the logged-in user
+            const option = document.createElement('option');
+            option.value = user.employee_id;
+            option.text = user.employee_name;
+            dropdown.appendChild(option);
+        }
+    });
+}
+
+function disableCloseForward() {
+    if (name !== currently_with) {
+        console.log("Not same")
+        document.getElementById('close-forward').style.display = 'none';
+    }
+    else {
+        return
+    }
+}
+// window.onload = () => {
+//     if(!sessionStorage.role) {
+//         location.href = 'LOGIN.html';
+//     }
+//     disableCloseForward();
+// };
 
 
