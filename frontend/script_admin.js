@@ -1,5 +1,7 @@
 // const { data } = require("../backend-js/src/controllers/complaintsController");
 
+const inbox = document.querySelector("#inbox");
+//i think inbox wasnt declared so added
 inbox.addEventListener("click", (e) => {
     // Define Role & ID
     const role = sessionStorage.role;
@@ -116,11 +118,11 @@ inbox.addEventListener("click", (e) => {
     </table>`;
 });
 
-const logOut = document.querySelector(".logout");
+const logOut = document.querySelector("#logout");
 
 logout.addEventListener("click", (e) => {
     sessionStorage.clear();
-    location.href = "LOGIN.html";
+    location.href = "WELCOME.html";
 });
 window.onload = () => {
     if (!sessionStorage.role) {
@@ -250,6 +252,9 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
                     };
                     const table = document.querySelector("#users-table");
 
+                    if(newData.empId === sessionStorage.id){
+                        continue;
+                    }
                     // Create a new row and add the data
                     const newRow = table.insertRow();
 
@@ -678,3 +683,11 @@ document.getElementById("reports").addEventListener("click", (e) => {
 
     document.addEventListener('DOMContentLoaded', fetchComplaints);
 })
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const name = sessionStorage.name;
+    const namedisplay = document.querySelector("#upper-navname");
+    console.log(name);
+    namedisplay.innerHTML = `${name}`    
+});

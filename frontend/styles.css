@@ -40,7 +40,7 @@ body {
 
 .login-button {
     position: absolute;
-    top: 10px;
+    top: 48px;
     right: 20px;
     background: #003366;
     color: #fff;
@@ -49,6 +49,22 @@ body {
     border-radius: 3px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.upper-nav{
+    position: absolute;
+    top: 10%;
+    color: #fff;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: flex-end;
+}
+
+.logoutbtn{
+    color: white;
+    text-decoration: none;
+    padding: 0 10px;
 }
 
 .user-menu {
