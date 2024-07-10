@@ -348,6 +348,7 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
         xhr.send();
     }
     else {
+        // document.getElementById("activate_deactivate_user").display = "none";
         main_content = document.querySelector("#main-content");
         main_content.innerHTML = `
                 <h1>Restricted Content!!</h1>
@@ -731,6 +732,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const namedisplay = document.querySelector("#upper-navname");
     console.log(name);
     namedisplay.innerHTML = `${name}`
+
+    if (!sessionStorage.role) {
+        location.href = "LOGIN.html";
+    }
+    if (sessionStorage.role === 'user') {
+        document.getElementById('all_complaints').style.display = 'none';
+        document.getElementById('add_user').style.display = 'none';
+        document.getElementById('activate_deactivate_user').style.display = 'none';
+        document.getElementById('reports').style.display = 'none';
+    }
 });
 
 // Add an event listener to check for the target element after reload
