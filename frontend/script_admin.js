@@ -243,18 +243,20 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
             <!-- Table rows can be added here as needed -->
             </table>`;
                 data = responseData["data"];
-                // console.log(responseData);
+                console.log(data);
                 for (let i = 0; i < data.length; i++) {
                     const newData = {
                         empId: data[i].employee_id,
                         empName: data[i].employee_name,
                         scope: data[i].scope,
+                        dropped: data[i].dropped,
                     };
                     const table = document.querySelector("#users-table");
 
-                    if(newData.empId === sessionStorage.id){
+                    if (newData.empId === sessionStorage.id) {
                         continue;
                     }
+
                     // Create a new row and add the data
                     const newRow = table.insertRow();
 
@@ -265,32 +267,71 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
                     } else {
                         newRow.insertCell(2).textContent = "User";
                     }
-                    const dropButton = document.createElement("button");
-                    dropButton.textContent = "Drop User";
-                    dropButton.onclick = function () {
-                        const empId = data[i].employee_id;
-                        const xhr = new XMLHttpRequest();
-                        const url = `http://127.0.0.1:5000/drop_user/${empId}`;
-                        // console.log(url);
-                        xhr.open("DELETE", `http://127.0.0.1:5000/drop_user/${empId}`);
-                        xhr.onload = function () {
-                            if (xhr.status === 200) {
-                                // Request was successful
-                                // console.log("User dropped successfully");
-                                // Remove the row from the table
-                                const table = document.querySelector("#users-table");
-                                table.deleteRow(newRow.rowIndex);
-                            } else {
-                                // Request failed
-                                console.error("Error:", xhr.status);
-                            }
+                    let dropped = newData.dropped;
+                    if (dropped) {
+                        const activateButton = document.createElement("button");
+                        activateButton.textContent = "Activate";
+                        activateButton.onclick = function () {
+                            const empId = data[i].employee_id;
+                            // Fetch API to activate user
+                            fetch(`http://127.0.0.1:5000/activate_user/${empId}`, {method : 'POST'})
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then((responseData) => {
+                                    // Request was successful
+                                    // console.log(responseData);
+                                    // Remove the row from the table
+                                    // const table = document.querySelector("#users-table");
+                                    // table.deleteRow(newRow.rowIndex);
+                                    activateButton.textContent = "Deactivate";
+                                    alert(`User ${newData.empName} Activated`);
+                                    dropped = false;
+                                    localStorage.setItem('targetElementId', 'activate_deactivate_user');
+                                    window.location.reload();
+                                })
+                                .catch((error) => {
+                                    // Request failed
+                                    console.error("Error:", error);
+                                });
                         };
-                        xhr.onerror = function () {
-                            console.error("Request failed");
+                        newRow.insertCell(3).appendChild(activateButton);
+                    }
+                    else {
+                        const dropButton = document.createElement("button");
+                        dropButton.textContent = "Deactivate";
+                        dropButton.onclick = function () {
+                            const empId = data[i].employee_id;
+                            // Fetch api to http://127.0.0.1:5000/drop_user/${empId}
+                            fetch(`http://127.0.0.1:5000/drop_user/${empId}`, { method: 'DELETE' })
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then((responseData) => {
+                                    // Request was successful
+                                    // console.log(responseData);
+                                    // Remove the row from the table
+                                    // const table = document.querySelector("#users-table");
+                                    // table.deleteRow(newRow.rowIndex);
+                                    dropButton.textContent = "Activate";
+                                    alert(`User ${newData.empName} Dectivated`);
+                                    dropped = true;
+                                    localStorage.setItem('targetElementId', 'activate_deactivate_user');
+                                    window.location.reload();                                    
+                                })
+                                .catch((error) => {
+                                    // Request failed
+                                    console.error("Error:", error);
+                                });
                         };
-                        xhr.send();
-                    };
-                    newRow.insertCell(3).appendChild(dropButton);
+                        newRow.insertCell(3).appendChild(dropButton);
+                    }
                 }
             } else {
                 // Request failed
@@ -373,7 +414,7 @@ document.getElementById("sent").addEventListener("click", (e) => {
                     currently_with: data[i].currently_with,
                 };
                 const table = document.querySelector("#complaint-table");
-                
+
                 // Create a new row and add the data
                 const newRow = table.insertRow();
 
@@ -552,7 +593,7 @@ document.getElementById('all_complaints').addEventListener("click", (e) => {
             </table>
             `;
     }
-    else{
+    else {
         const main_content = document.querySelector("#main-content");
         main_content.innerHTML = `
             <h1>Restricted Content!!</h1>
@@ -626,7 +667,7 @@ document.getElementById("reports").addEventListener("click", (e) => {
         const status = document.getElementById('status').value;
         // console.log(status)
         const message = document.getElementById('message');
-        
+
         try {
             const response = await fetch(`http://127.0.0.1:5000/report?startDate=${startDate}&endDate=${endDate}&status=${status}`);
             let complaints = await response.json();
@@ -642,7 +683,7 @@ document.getElementById("reports").addEventListener("click", (e) => {
             if (complaints.length > 0) {
                 tableBody.innerHTML = '';
                 // console.log(complaints.length)
-                if (noData) noData.style.display = 'none'; 
+                if (noData) noData.style.display = 'none';
                 // noData.style.display = 'none';
                 complaints.forEach(complaint => {
                     // console.log(complaint)
@@ -661,7 +702,7 @@ document.getElementById("reports").addEventListener("click", (e) => {
                     total_complaints++;
                     if (complaint.status === 'Closed') closed_complaints++;
                     if (complaint.status === 'Under Process') under_process_complaints++;
-                    
+
 
                 });
                 message.innerHTML = `
@@ -689,5 +730,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = sessionStorage.name;
     const namedisplay = document.querySelector("#upper-navname");
     console.log(name);
-    namedisplay.innerHTML = `${name}`    
+    namedisplay.innerHTML = `${name}`
+});
+
+// Add an event listener to check for the target element after reload
+window.addEventListener('DOMContentLoaded', (event) => {
+    const targetElementId = localStorage.getItem('targetElementId');
+    if (targetElementId) {
+        const targetElement = document.getElementById(targetElementId);
+        if (targetElement) {
+            // Click the target element
+            targetElement.click();
+        }
+        // Remove the item from local storage to prevent multiple clicks
+        localStorage.removeItem('targetElementId');
+    }
 });

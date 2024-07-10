@@ -70,7 +70,8 @@ module.exports = {
   
   dropUser: (req,res) => {
     const { empId } = req.params;
-    const query = 'DELETE FROM users WHERE employee_id = $1';
+    const query = 'UPDATE users SET dropped = true WHERE employee_id = $1';
+    // const query = 'DELETE FROM users WHERE employee_id = $1';
     const values = [empId];
     db.query(query, values)
       .then(() => {
@@ -82,6 +83,23 @@ module.exports = {
       })
       .catch((error) => {
         console.error('Error deleting data:', error.message);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+      });
+  },
+  activateUser: (req,res) => {
+    const { empId } = req.params;
+    const query = 'UPDATE users SET dropped = false WHERE employee_id = $1';
+    const values = [empId];
+    db.query(query, values)
+      .then(() => {
+        res.status(200).json({
+          data: `User Activated: ${empId}`,
+        }
+      )
+      console.log('User Activated', values);
+      })
+      .catch((error) => {
+        console.error('Error activating data:', error.message);
         res.status(500).json({ error: 'Internal server error', details: error.message });
       });
   }
