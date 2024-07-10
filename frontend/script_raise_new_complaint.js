@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async() => {
+document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('complaintForm');
     const employeeNoInput = document.getElementById('employee-no');
     const errorElement = document.getElementById('employee-no-error');
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     // const departmentDropdown = document.getElementById('department')
     // const websiteDropdown = document.getElementById('website')
     // const moduleDropdown = document.getElementById('module')
-    
+
     // try {
     //     const response = await fetch('http://127.0.0.1:5000/department');
     //     if (!response.ok) {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     // } catch (error) {
     //     console.error('Error:', error);
     // }
-    
+
     employeeNoInput.addEventListener('input', () => {
         if (employeeNoInput.value.length === 11) {
             errorElement.style.display = 'none'; // Hide error message if length is correct
@@ -159,9 +159,14 @@ document.addEventListener('DOMContentLoaded', async() => {
 
                 const responseData = await response.json();
                 console.log('Data sent successfully!', responseData);
-                window.onbeforeunload = function () {
-                    return ""
+                sessionStorage.setItem('complaintId', responseData['complaintId']);
+                if (sessionStorage.getItem('complaintId') !== null) {
+                    // Redirect to a new page after successful submission
+                    window.location.href = 'SUCESSFUL_RAISE_COMPLAINT.html';
                 }
+                // window.onbeforeunload = function () {
+                //     return ""
+                // }
                 // Display the generated Complaint ID
                 document.getElementById('compID').innerHTML = `<h2>Complaint ID Generated: ${responseData['complaintId']}</h2>`;
             } catch (error) {
