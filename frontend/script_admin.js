@@ -596,8 +596,8 @@ document.getElementById("reports").addEventListener("click", (e) => {
                 </thead>
                 <!-- Table rows can be added here as needed -->
                 <tbody id='tbody'>
-                    <tr>
-                        <td colspan="7" id="no-data">No complaints to display</td>
+                    <tr id="no-data">
+                        <td colspan="7">No complaints to display</td>
                     </tr>
                 </tbody>
             </table>
@@ -608,16 +608,16 @@ document.getElementById("reports").addEventListener("click", (e) => {
     async function fetchComplaints(e) {
         e.preventDefault();
         let startDate = document.getElementById('start-date').value;
-        startDate = formatDate(startDate);
+        // startDate = formatDate(startDate);
         // console.log(startDate)
         let endDate = document.getElementById('end-date').value;
-        endDate = formatDate(endDate);
+        // endDate = formatDate(endDate);
         // console.log(endDate)
 
-        function formatDate(date) {
-            const [year, month, day] = date.split('-');
-            return `${day}-${month}-${year}`;
-        }
+        // function formatDate(date) {
+        //     const [year, month, day] = date.split('-');
+        //     return `${day}-${month}-${year}`;
+        // }
         const status = document.getElementById('status').value;
         // console.log(status)
         const message = document.getElementById('message');
@@ -665,7 +665,11 @@ document.getElementById("reports").addEventListener("click", (e) => {
                         <h3>Total Under Process: ${under_process_complaints++}</h3>
                     `;
             } else {
-                noData.style.display = 'block';
+                tableBody.innerHTML = `<tr id="no-data">
+                        <td colspan="7">No complaints to display</td>
+                    </tr>`;
+                message.innerHTML = '';
+                // noData.style.display = 'block';
             }
         } catch (error) {
             console.error('Error fetching complaints:', error);

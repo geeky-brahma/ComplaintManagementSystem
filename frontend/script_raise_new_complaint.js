@@ -123,9 +123,10 @@ document.addEventListener('DOMContentLoaded', async() => {
             errorElement.style.display = 'none'; // Hide error message
 
             const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1; // Months are zero-indexed
-            const day = now.getDate();
+            date = new Date(now).toISOString().split('T')[0];
+            // const year = now.getFullYear();
+            // const month = now.getMonth() + 1; // Months are zero-indexed
+            // const day = now.getDate();
 
             // Create FormData object
             let formData = new FormData();
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async() => {
             formData.append('website', document.querySelector("#website").value);
             formData.append('module', document.querySelector("#module").value);
             formData.append('description', document.querySelector("#description").value);
-            formData.append('date', `${day}-${month}-${year}`);
+            formData.append('date', date);
             formData.append('status', "Under Process");
             formData.append('currentlyWith', 'admin');
             // const fileInput = document.querySelector("#reference");
