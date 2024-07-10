@@ -47,6 +47,7 @@ function updateTable(data) {
                             <th>Desc</th>
                             <!-- <th>Reference Document</th> -->
                             <th>Status</th>
+                            <th id='resolved'>Resolution</th>
                             </tr>
                         </table>`; // Clear existing table content
 
@@ -74,7 +75,7 @@ function updateTable(data) {
         // referenceDoc= entry.referenceDoc
         status= entry.status
         date= entry.date
-
+        remarks= entry.remarks
         const newRow = table.insertRow();
         newRow.insertCell(0).textContent = complaintId;
         newRow.insertCell(1).textContent = date;
@@ -85,7 +86,7 @@ function updateTable(data) {
         newRow.insertCell(6).textContent = website;
         newRow.insertCell(7).textContent = module;
         newRow.insertCell(8).textContent = desc;
-
+        
         // const linkCell = newRow.insertCell(9);
         // const link = document.createElement('a');
         // link.href = referenceDoc;
@@ -93,6 +94,12 @@ function updateTable(data) {
         // linkCell.appendChild(link);
 
         newRow.insertCell(9).textContent = status;
+        if (status===`Closed`){
+            newRow.insertCell(10).textContent = remarks;
+        }
+        else{
+            document.getElementById('resolved').style.display = 'none';
+        }
     });
 }
 
