@@ -170,8 +170,10 @@ module.exports = {
 
 
   closeForward: (req, res) => {
-    const { id, forwardedFrom, forwardedTo, remarks, date } = req.body;
-
+    let { id, forwardedFrom, forwardedTo, remarks, date, time, now } = req.body;
+    // convert date and time to postgres format
+    date = new Date(now).toISOString().split('T')[0];
+    // time = now.toLocaleTimeString('en-GB');
     if (req.body.status) {
       const query = `UPDATE complaints SET status = 'Closed', remarks = $1 WHERE id = $2`;
       const values = [remarks, id];
@@ -192,9 +194,9 @@ module.exports = {
       const values1 = [forwardedTo, remarks, id];
 
       const query2 = `
-        INSERT INTO transactions (fwd_from, fwd_to, remarks, date, complaint_id) 
-        VALUES ($1, $2, $3, $4, $5)`;
-      const values2 = [forwardedFrom, forwardedTo, remarks, date, id];
+        INSERT INTO transactions (fwd_from, fwd_to, remarks, date, complaint_id, time) 
+        VALUES ($1, $2, $3, $4, $5, $6)`;
+      const values2 = [forwardedFrom, forwardedTo, remarks, date, id, time];
 
       db.query(query1, values1)
         .then(() => db.query(query2, values2))

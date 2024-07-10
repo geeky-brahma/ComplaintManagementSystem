@@ -36,9 +36,9 @@ submitButton.addEventListener('click', () => {
     const textarea = document.getElementById('remarks');
     const textValue = textarea.value;
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1; // Months are zero-indexed
-    const day = now.getDate();
+    // console.log(now)
+    const date = new Date(now).toISOString().split('T')[0];
+    const time = now.toLocaleTimeString('en-GB'); // 'en-GB' format gives HH:MM:SS
     for (const radioButton of radioButtons) {
         if (radioButton.checked) {
             selectedValue = radioButton.value;
@@ -62,11 +62,13 @@ submitButton.addEventListener('click', () => {
             forwardedFrom: sessionStorage.name,
             forwardedTo: selectedText,
             remarks: textValue,
-            date: `${day}/${month}/${year}`
+            date: date,
+            time: time,
+            now: now
         };
         console.log(formData);
     }
-    console.log("Selected complaint type:", selectedValue);
+    // console.log("Selected complaint type:", selectedValue);
     closeForward(formData);
 });
 
@@ -118,11 +120,11 @@ async function closeForward(formData) {
 
         // Handle response data if needed
         const data = responseData.data;
-        document.getElementById('status').innerHTML = `<h2>${data}</h2>`;
+        document.getElementById('successMessage').innerHTML = `<h2>${data}</h2>`;
         setTimeout(() => {
             location.reload();
         }, 3000);
-        
+
     } catch (error) {
         console.error('Error:', error);
         // Handle error response from server if needed
@@ -145,7 +147,8 @@ function displayComplaintDetails(data) {
         referenceDoc: data.reference,
         status: data.status,
         date: data.date,
-        currently_with: data.currently_with
+        currently_with: data.currently_with,
+        status: data.status,
 
 
         // complaintId: data.id,
@@ -174,7 +177,10 @@ function displayComplaintDetails(data) {
     document.getElementById('employee-name').innerText = newData.empName;
     document.getElementById('employee-no').innerText = newData.empNo;
     document.getElementById('currently_with').innerText = newData.currently_with;
-
+    document.getElementById('status').innerText = newData.status;
+    document.getElementById('status').style.color = 'red';
+    document.getElementById('status').style.fontWeight = 'bold';
+    sessionStorage.status = newData.status;
 
 
 
@@ -217,10 +223,11 @@ function displayComplaintDetails(data) {
                 // Handle error
             }
         }
-        disableCloseForward();
+
     } else {
         referenceDocElement.innerText = 'No document available';
     }
+    disableCloseForward();
 }
 
 function displayHistory(innerArray) {
@@ -237,6 +244,7 @@ function displayHistory(innerArray) {
                     <div>To: ${element.fwd_to}</div>
                     <div>Remarks: ${element.remarks}</div>
                     <div>Date: ${element.date}</div>
+                    <div>Time: ${element.time}</div>
                 </div>
             `;
         }
@@ -283,20 +291,20 @@ function populateUserDropdown(users) {
 }
 
 function disableCloseForward() {
-    if (name !== currently_with) {
-        console.log("Not same")
+    if (name !== currently_with || sessionStorage.status === 'Closed') {
+        // console.log("Not same")
         document.getElementById('close-forward').style.display = 'none';
     }
     else {
         return
     }
 }
-// window.onload = () => {
-//     if(!sessionStorage.role) {
-//         location.href = 'LOGIN.html';
-//     }
-//     disableCloseForward();
-// };
+window.onload = () => {
+    if (!sessionStorage.role) {
+        location.href = 'LOGIN.html';
+    }
+    // disableCloseForward();
+};
 
 
 // or should we redirect to the admin html?
@@ -410,7 +418,7 @@ document.getElementById('all_complaints').addEventListener("click", (e) => {
             </table>
             `;
     }
-    else{
+    else {
         const main_content = document.querySelector("#main-content");
         main_content.innerHTML = `
             <h1>Restricted Content!!</h1>
@@ -424,5 +432,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = sessionStorage.name;
     const namedisplay = document.querySelector("#upper-navname");
     console.log(name);
-    namedisplay.innerHTML = `${name}`    
+    namedisplay.innerHTML = `${name}`
 });
