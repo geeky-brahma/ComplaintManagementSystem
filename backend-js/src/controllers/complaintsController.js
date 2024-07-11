@@ -172,7 +172,7 @@ module.exports = {
   closeForward: (req, res) => {
     let { id, forwardedFrom, forwardedTo, remarks, date, time, now } = req.body;
     // convert date and time to postgres format
-    date = new Date(now).toISOString().split('T')[0];
+    // date = new Date(now).toISOString().split('T')[0];
     // time = now.toLocaleTimeString('en-GB');
     if (req.body.status) {
       const query = `UPDATE complaints SET status = 'Closed', remarks = $1 WHERE id = $2`;
