@@ -303,7 +303,7 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
                     }
                     else {
                         const dropButton = document.createElement("button");
-                        activateButton.classList.add("submit-button");
+                        dropButton.classList.add("submit-button");
                         dropButton.textContent = "Deactivate";
                         dropButton.onclick = function () {
                             const empId = data[i].employee_id;
