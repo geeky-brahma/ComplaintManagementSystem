@@ -487,122 +487,122 @@ document.getElementById("sent").addEventListener("click", (e) => {
 });
 
 
-document.getElementById('all_complaints').addEventListener("click", (e) => {
-    // Define Role & ID
-    const role = sessionStorage.role;
-    const id = sessionStorage.id;
-    const name = sessionStorage.name;
+// document.getElementById('all_complaints').addEventListener("click", (e) => {
+//     // Define Role & ID
+//     const role = sessionStorage.role;
+//     const id = sessionStorage.id;
+//     const name = sessionStorage.name;
 
-    if (sessionStorage.role === 'admin') {
-        // Define the request URL
-        const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
+//     if (sessionStorage.role === 'admin') {
+//         // Define the request URL
+//         const url = `http://127.0.0.1:5000/all_complaints?role=${role}&id=${id}`;
 
 
-        // Send data using Fetch API
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((responseData) => {
-                // Request was successful
-                // console.log(responseData);
-                const main_content = document.querySelector("#main-content");
-                main_content.innerHTML = `
-            <table class="table" id="complaint-table">
-            <tr>
-                <th>COMPLAINT ID</th>
-                <th>DATE</th>
-                <th>EMPLOYEE NO</th>
-                <th>EMPLOYEE NAME</th>
-                <th>DIVISION</th>
-                <th>DEPARTMENT</th>
-                <th>WEBSITE</th>
-                <th>MODULE</th>
-                <th>DESC</th>
-                <th>STATUS</th>
-            </tr>
-            <!-- Table rows can be added here as needed -->
-            </table>`;
+//         // Send data using Fetch API
+//         fetch(url)
+//             .then((response) => {
+//                 if (!response.ok) {
+//                     throw new Error(`HTTP error! Status: ${response.status}`);
+//                 }
+//                 return response.json();
+//             })
+//             .then((responseData) => {
+//                 // Request was successful
+//                 // console.log(responseData);
+//                 const main_content = document.querySelector("#main-content");
+//                 main_content.innerHTML = `
+//             <table class="table" id="complaint-table">
+//             <tr>
+//                 <th>COMPLAINT ID</th>
+//                 <th>DATE</th>
+//                 <th>EMPLOYEE NO</th>
+//                 <th>EMPLOYEE NAME</th>
+//                 <th>DIVISION</th>
+//                 <th>DEPARTMENT</th>
+//                 <th>WEBSITE</th>
+//                 <th>MODULE</th>
+//                 <th>DESC</th>
+//                 <th>STATUS</th>
+//             </tr>
+//             <!-- Table rows can be added here as needed -->
+//             </table>`;
 
-                const data = responseData["data"];
-                for (let i = 0; i < data.length; i++) {
-                    const newData = {
-                        complaintId: data[i].id,
-                        empNo: data[i].employee_no,
-                        empName: data[i].employee_name,
-                        division: data[i].division_hq,
-                        department: data[i].department,
-                        website: data[i].website,
-                        module: data[i].module,
-                        desc: data[i].description,
-                        referenceDoc: data[i].referenceDoc,
-                        status: data[i].status,
-                        date: data[i].date,
-                        currently_with: data[i].currently_with,
-                    };
-                    const table = document.querySelector("#complaint-table");
+//                 const data = responseData["data"];
+//                 for (let i = 0; i < data.length; i++) {
+//                     const newData = {
+//                         complaintId: data[i].id,
+//                         empNo: data[i].employee_no,
+//                         empName: data[i].employee_name,
+//                         division: data[i].division_hq,
+//                         department: data[i].department,
+//                         website: data[i].website,
+//                         module: data[i].module,
+//                         desc: data[i].description,
+//                         referenceDoc: data[i].referenceDoc,
+//                         status: data[i].status,
+//                         date: data[i].date,
+//                         currently_with: data[i].currently_with,
+//                     };
+//                     const table = document.querySelector("#complaint-table");
 
-                    // Create a new row and add the data
-                    const newRow = table.insertRow();
+//                     // Create a new row and add the data
+//                     const newRow = table.insertRow();
 
-                    // Add event listener to navigate to the complaint details of that page
-                    newRow.addEventListener("click", () => {
-                        window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
-                    });
-                    newRow.style.cursor = "pointer";
+//                     // Add event listener to navigate to the complaint details of that page
+//                     newRow.addEventListener("click", () => {
+//                         window.location.href = `COMPLAINT_DETAILS.html?complaint_id=${newData.complaintId}`;
+//                     });
+//                     newRow.style.cursor = "pointer";
 
-                    newRow.insertCell(0).textContent = newData.complaintId;
-                    newRow.insertCell(1).textContent = newData.date;
-                    newRow.insertCell(2).textContent = newData.empNo;
-                    newRow.insertCell(3).textContent = newData.empName;
-                    newRow.insertCell(4).textContent = newData.division;
-                    newRow.insertCell(5).textContent = newData.department;
-                    newRow.insertCell(6).textContent = newData.website;
-                    newRow.insertCell(7).textContent = newData.module;
-                    newRow.insertCell(8).textContent = newData.desc;
-                    // newRow.insertCell(9).textContent = newData.referenceDoc;
-                    //updated the reference column to a hyperlink
-                    // const linkCell = newRow.insertCell(8);
-                    // const link = document.createElement('a');
-                    // console.log(newData.referenceDoc);
-                    // link.href = newData.referenceDoc;
-                    // link.textContent = 'Click here';
-                    // linkCell.appendChild(link);
-                    newRow.insertCell(9).textContent = newData.status;
-                }
-            }
-            )
-            .catch((error) => {
-                // Request failed
-                console.error("Error:", error);
-            });
+//                     newRow.insertCell(0).textContent = newData.complaintId;
+//                     newRow.insertCell(1).textContent = newData.date;
+//                     newRow.insertCell(2).textContent = newData.empNo;
+//                     newRow.insertCell(3).textContent = newData.empName;
+//                     newRow.insertCell(4).textContent = newData.division;
+//                     newRow.insertCell(5).textContent = newData.department;
+//                     newRow.insertCell(6).textContent = newData.website;
+//                     newRow.insertCell(7).textContent = newData.module;
+//                     newRow.insertCell(8).textContent = newData.desc;
+//                     // newRow.insertCell(9).textContent = newData.referenceDoc;
+//                     //updated the reference column to a hyperlink
+//                     // const linkCell = newRow.insertCell(8);
+//                     // const link = document.createElement('a');
+//                     // console.log(newData.referenceDoc);
+//                     // link.href = newData.referenceDoc;
+//                     // link.textContent = 'Click here';
+//                     // linkCell.appendChild(link);
+//                     newRow.insertCell(9).textContent = newData.status;
+//                 }
+//             }
+//             )
+//             .catch((error) => {
+//                 // Request failed
+//                 console.error("Error:", error);
+//             });
 
-        const main_content = document.querySelector("#main-content");
-        main_content.innerHTML = `
-            <table class="table">
-            <tr>
-                <th>COMPLAINT ID</th>
-                <th>COMPLAIN CASE ID</th>
-                <th>DIV</th>
-                <th>DEPARTMENT</th>
-                <th>MAGNITUDE</th>
-                <th>STATUS</th>
-                <th>DATE</th>
-            </tr>
-            <!-- Table rows can be added here as needed -->
-            </table>
-            `;
-    }
-    else {
-        const main_content = document.querySelector("#main-content");
-        main_content.innerHTML = `
-            <h1>Restricted Content!!</h1>
-        `
-    }
-});
+//         const main_content = document.querySelector("#main-content");
+//         main_content.innerHTML = `
+//             <table class="table">
+//             <tr>
+//                 <th>COMPLAINT ID</th>
+//                 <th>COMPLAIN CASE ID</th>
+//                 <th>DIV</th>
+//                 <th>DEPARTMENT</th>
+//                 <th>MAGNITUDE</th>
+//                 <th>STATUS</th>
+//                 <th>DATE</th>
+//             </tr>
+//             <!-- Table rows can be added here as needed -->
+//             </table>
+//             `;
+//     }
+//     else {
+//         const main_content = document.querySelector("#main-content");
+//         main_content.innerHTML = `
+//             <h1>Restricted Content!!</h1>
+//         `
+//     }
+// });
 
 document.getElementById("reports").addEventListener("click", (e) => {
     const main_content = document.querySelector("#main-content");
