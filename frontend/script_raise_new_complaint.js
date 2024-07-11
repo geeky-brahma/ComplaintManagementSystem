@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    
     const form = document.getElementById('complaintForm');
     const employeeNoInput = document.getElementById('employee-no');
     const errorElement = document.getElementById('employee-no-error');
@@ -154,6 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 if (!response.ok) {
+                    document.getElementById('compID').innerHTML = `<h2>Failed To Raise The Complaint. Check all fields before submitting.</h2>`;
                     throw new Error('Failed to send data.');
                 }
 
