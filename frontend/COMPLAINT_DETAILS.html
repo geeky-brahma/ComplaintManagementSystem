@@ -139,11 +139,11 @@
   <script>
     logout.addEventListener('click', (e) => {
       sessionStorage.clear();
-      location.href = 'LOGIN.html';
+      location.href = 'WELCOME.html';
     })
     window.onload = () => {
         if(!sessionStorage.role){
-            location.href = 'LOGIN.html';
+            location.href = 'WELCOME.html';
         } 
     }
     document.addEventListener("DOMContentLoaded", function () {

@@ -301,7 +301,7 @@ function disableCloseForward() {
 }
 window.onload = () => {
     if (!sessionStorage.role) {
-        location.href = 'LOGIN.html';
+        location.href = 'WELCOME.html';
     }
     // disableCloseForward();
 };

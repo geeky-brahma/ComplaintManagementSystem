@@ -118,7 +118,7 @@ inbox.addEventListener("click", (e) => {
     </table>`;
 });
 
-const logOut = document.querySelector("#logout");
+const logout = document.querySelector("#logout");
 
 logout.addEventListener("click", (e) => {
     sessionStorage.clear();
@@ -126,7 +126,7 @@ logout.addEventListener("click", (e) => {
 });
 window.onload = () => {
     if (!sessionStorage.role) {
-        location.href = "LOGIN.html";
+        location.href = "WELCOME.html";
     }
 };
 
