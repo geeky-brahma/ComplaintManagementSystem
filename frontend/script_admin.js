@@ -238,7 +238,7 @@ document.getElementById("activate_deactivate_user").addEventListener("click", (e
                 <th>EMPLOYEE ID</th>
                 <th>EMPLOYEE NAME</th>
                 <th>SCOPE</th>
-                <th>DROP</th>
+                <th>ACTIVATE/DEACTIVATE</th>
             </tr>
             <!-- Table rows can be added here as needed -->
             </table>`;
