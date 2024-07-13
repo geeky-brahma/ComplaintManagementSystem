@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(cors()); // Use cors middleware
 
 // Routes
+app.get('/', (req, res) => { res.send('Welcome to the Complaint Management System API'); });
 app.post('/data', complaintsController.data);
 app.post('/status', complaintsController.status);
 app.get('/all_complaints', complaintsController.allComplaints);
